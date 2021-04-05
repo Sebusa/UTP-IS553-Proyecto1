@@ -55,7 +55,7 @@ public class Contact {
 
     //Funciones básicas que brinda un contacto.
     public void showData(){
-        cleanScreen();
+        Screen.cleanScreen();
 
         System.out.println("Nombre: " + getName());
         System.out.println("\nNúmeros telefónicos:\n");
@@ -66,9 +66,9 @@ public class Contact {
     }
 
     public void addData(){
-        cleanScreen();
+        Screen.cleanScreen();
 
-        Integer option;
+        String option;
         System.out.println("¿Qué deseas agregar?\n");
 
         System.out.println("[1]-Nombre.");
@@ -78,36 +78,36 @@ public class Contact {
         System.out.println("[5]-Apodo.");
         System.out.println("[Cualquier otra tecla]-Salir de la función.");
 
-        System.out.println("Ingresa la opción: ");
-        option = input.nextInt();
+        System.out.print("Ingresa la opción: ");
+        option = input.next();
 
         switch(option){
-            case 1: {
+            case "1": {
                 String newName;
                 System.out.println("Ingresa el nombre: ");
                 newName = input.nextLine();
                 setName(newName);
                 break;
             }
-            case 2: {
+            case "2": {
                 addNumber();
                 break;
             }
-            case 3: {
+            case "3": {
                 String newEmail;
                 System.out.println("Ingresa el correo electrónico: ");
                 newEmail = input.nextLine();
                 setEmail(newEmail);
                 break;
             }
-            case 4: {
+            case "4": {
                 String newAddress;
                 System.out.println("Ingresa la dirección: ");
                 newAddress = input.nextLine();
                 setAddress(newAddress);
                 break;
             }
-            case 5: {
+            case "5": {
                 String newNickname;
                 System.out.println("Ingresa el apodo: ");
                 newNickname = input.nextLine();
@@ -119,9 +119,9 @@ public class Contact {
     }
 
     public void modifyData(){
-        cleanScreen();
+        Screen.cleanScreen();
 
-        Integer option;
+        String option;
         System.out.println("¿Qué deseas modificar?\n");
 
         System.out.println("[1]-Nombre.");
@@ -131,36 +131,36 @@ public class Contact {
         System.out.println("[5]-Apodo.");
         System.out.println("[Cualquier otra tecla]-Salir de la función.");
 
-        System.out.println("Ingresa la opción: ");
-        option = input.nextInt();
+        System.out.print("Ingresa la opción: ");
+        option = input.next();
 
         switch(option){
-            case 1: {
+            case "1": {
                 String newName;
                 System.out.println("Ingresa el nombre: ");
                 newName = input.nextLine();
                 setName(newName);
                 break;
             }
-            case 2: {
+            case "2": {
                 modifyNumber();
                 break;
             }
-            case 3: {
+            case "3": {
                 String newEmail;
                 System.out.println("Ingresa el correo electrónico: ");
                 newEmail = input.nextLine();
                 setEmail(newEmail);
                 break;
             }
-            case 4: {
+            case "4": {
                 String newAddress;
                 System.out.println("Ingresa la dirección: ");
                 newAddress = input.nextLine();
                 setAddress(newAddress);
                 break;
             }
-            case 5: {
+            case "5": {
                 String newNickname;
                 System.out.println("Ingresa el apodo: ");
                 newNickname = input.nextLine();
@@ -172,9 +172,9 @@ public class Contact {
     }
 
     public void deleteData(){
-        cleanScreen();
+        Screen.cleanScreen();
 
-        Integer option;
+        String option;
         System.out.println("¿Qué deseas eliminar?\n");
 
         System.out.println("[1]-Número de teléfono.");
@@ -184,22 +184,22 @@ public class Contact {
         System.out.println("[Cualquier otra tecla]-Salir de la función.");
 
         System.out.println("Ingresa la opción: ");
-        option = input.nextInt();
+        option = input.next();
 
         switch(option){
-            case 1: {
+            case "1": {
                 deleteNumber();
                 break;
             }
-            case 2: {
+            case "2": {
                 setEmail("");
                 break;
             }
-            case 3: {
+            case "3": {
                 setAddress("");
                 break;
             }
-            case 4: {
+            case "4": {
                 setNickname("");
                 break;
             }
@@ -209,18 +209,21 @@ public class Contact {
 
     //Funciones adicionales para el manejo de la lista de números del contacto.
     public void addNumber(){
-        cleanScreen();
+        Screen.cleanScreen();
 
         String number;
-        System.out.println("Ingresa el número: ");
+        System.out.print("Ingresa el número: ");
         number = input.nextLine();
         this.phoneNumbers.add(number);
         System.out.println("¡Número agregado!");
 
     }
-    
+    public void addNumber(String number){
+        this.phoneNumbers.add(number);
+    }
+
     public void modifyNumber(){
-        cleanScreen();
+        Screen.cleanScreen();
 
         if(this.phoneNumbers.size() != 0){
             System.out.println("Lista de números");
@@ -230,7 +233,7 @@ public class Contact {
 
             if(option >= 0 && option < this.phoneNumbers.size()){
                 String number;
-                System.out.println("Ingresa el número: ");
+                System.out.print("Ingresa el número: ");
                 number = input.nextLine();
                 this.phoneNumbers.set(option, number);
                 System.out.println("¡Número modificado!");
@@ -245,7 +248,7 @@ public class Contact {
     }
     
     public void deleteNumber(){
-        cleanScreen();
+        Screen.cleanScreen();
         
         if(this.phoneNumbers.size() != 0){
             System.out.println("Lista de números");
@@ -275,11 +278,5 @@ public class Contact {
         else{
             System.out.println("La lista de números está vacía.");
         }
-    }
-
-    //función adicional para limpiar la pantalla de la consola.
-    public void cleanScreen(){
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 }
