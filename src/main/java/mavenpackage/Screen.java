@@ -1,4 +1,5 @@
-/*Clase adicional que permite limpiar la consola*/
+/*Clase adicional que permite limpiar la consola.
+Versión: 2.0*/
 package mavenpackage;
 
 public class Screen {

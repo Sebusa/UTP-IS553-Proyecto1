@@ -1,7 +1,10 @@
+/*Menú alternativo para el uso de la clase Contact.
+El propósito de este menú es demostrar la correcta funcionalidad de la clase, así como
+tipo "prueba".
+Versión: 1.0*/
 package main.java.mavenpackage;
 
 import java.util.Scanner;
-
 import mavenpackage.*;
 
 public class ContactMain {

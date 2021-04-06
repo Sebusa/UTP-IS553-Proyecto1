@@ -25,10 +25,10 @@ public class Contact {
     }    
 
     public Contact(){
-        this.setName("");
-        this.setEmail("");
-        this.setAddress("");
-        this.setNickname("");
+        this.setName(null);
+        this.setEmail(null);
+        this.setAddress(null);
+        this.setNickname(null);
     }
 
     public String getNickname() {
@@ -126,13 +126,13 @@ public class Contact {
         System.out.println("Números telefónicos:");
         showNumbers();
         
-        if(getEmail() != ""){
+        if(getEmail() != null || getEmail() != "null"){
             System.out.println("Correo electrónico: " + getEmail());
         }
-        if(getAddress() != ""){
+        if(getAddress() != null || getAddress() != "null"){
             System.out.println("Dirección: " + getAddress());
         }
-        if(getNickname() != ""){
+        if(getNickname() != null || getNickname() != "null"){
             System.out.println("Apodo: " + getNickname());
         }
 
@@ -212,21 +212,22 @@ public class Contact {
                 break;
             }
             case 2: {
-                setEmail("");
+                setEmail(null);
                 break;
             }
             case 3: {
-                setAddress("");
+                setAddress(null);
                 break;
             }
             case 4: {
-                setNickname("");
+                setNickname(null);
                 break;
             }
             default: break;
         }
     }
 
+    //Funciones adicionales para el manejo de números telefónicos para el contacto
     public void addNumber(){
         Screen.clearScreen();
 
@@ -237,8 +238,12 @@ public class Contact {
         System.out.println("¡Número agregado!");
     }
 
+    public void addNumber(String number){
+        this.phoneNumbers.add(number);
+    }
+
     public void showNumbers(){
-        int i = 0;
+        int i = 1;
         for(String number : this.phoneNumbers){
             System.out.println(i + ") " + number);
             i++;
@@ -249,6 +254,7 @@ public class Contact {
         if(this.phoneNumbers.size() != 0){
             System.out.println("Lista de números");
             showNumbers();
+            System.out.println("(Recuerda que el índice comienza desde 0)");
             System.out.print("¿Qué número deseas modificar? Ingresa el índice: ");
             int index = input.nextInt();
 
@@ -272,6 +278,7 @@ public class Contact {
         if(this.phoneNumbers.size() != 0){
             System.out.println("Lista de números");
             showNumbers();
+            System.out.println("(Recuerda que el índice comienza desde 0)");
             System.out.print("¿Qué número deseas eliminar? Ingresa el índice: ");
             int index = input.nextInt();
 
@@ -288,6 +295,7 @@ public class Contact {
         }
     }
 
+    //Función adicional que facilita la escritura de datos por la agenda.
     public String getAttributes(){
         return getName() + ";" + String.join(",",this.phoneNumbers) + ";" 
                 + getEmail() + ";" + getAddress() + ";" + getNickname();
