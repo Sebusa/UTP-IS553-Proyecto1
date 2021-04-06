@@ -10,167 +10,63 @@ import java.util.Scanner;
 
 public class Phonebook{
     private List<Contact> contacts = new ArrayList<>();
-    Scanner consoleInput = new Scanner(System.in);
+    static Scanner consoleInput = new Scanner(System.in);
 
-    String fileName = "Resources\\Datos.txt";
-    String binaryFileName = "Resources\\Datos.dat";
-    File dataBase = new File(fileName);
-
-    public void main(){
-        Boolean flag = true;
-
-        while(flag){
-            Screen.cleanScreen();
-        
-            System.out.println("--MENÚ DE OPCIONES--");
-            System.out.println("[1]- Agregar un contacto.");
-            System.out.println("[2]- Modificar un contacto.");
-            System.out.println("[3]- Eliminar un contacto.");
-            System.out.println("[4]- Mostrar la lista de contactos.");
-            System.out.println("[5]- Buscar un contacto.");
-            System.out.println("[0]- Salir del programa.");
-            System.out.print("Ingrese una opción: ");
-
-            String option = consoleInput.next();
-            switch(option){
-                case "1":{
-                    addContact();
-                    break;
-                }
-                case "2":{
-                    modifyContact();
-                    break;
-                }
-                case "3":{
-                    deleteContact();
-                    break;
-                }
-                case "4":{
-                    showContact();
-                    break;
-                }
-                case "5":{
-                    System.out.println("pollo");
-                    break;
-                }
-                case "0":{
-                    flag = false;
-                    break;
-                }
-                default:{
-                    break;
-                }
-            }
-        }
-    }
+    String fileName = "resources/datos.txt";
 
     //Para archivos de texto
     public void convertData(){
         try {
-            Scanner fileReader = new Scanner(dataBase);
-            System.out.println("--CONTACTOS DISPONIBLE--");
-
             this.contacts.clear();
+            var output = new FileReader(fileName);
+            int numberData = output.read();
+            String lineText = "";
+            while(data != -1){
+                String letter = (String)data; 
+                lineText.concat(letter);
 
-            while(fileReader.hasNext()){
-                String[] dataRecolected = fileReader.next().split(";");
+                String[] data = lineText.split(";");
+                Contact user;
+                user.setName(data[0]);
 
-                String name = dataRecolected[0];
-                String listOfNumbers = dataRecolected[1];
-                String email = dataRecolected[2];
-                String address = dataRecolected[3];
-                String nickname = dataRecolected[4];
-
-                Contact user = new Contact(name,email,address,nickname);
-
-                if(listOfNumbers != ""){
-                    String[] userNumbers = listOfNumbers.split(",");
-                    for(String number : userNumbers){
-                        user.addNumber(number);
-                    }
+                String[] numbers = data[1].split(",");
+                for(String number : numbers){
+                    user.phoneNumbers.add(number);
                 }
 
+                user.setEmail(data[2]);
+                user.setAddress(data[3]);
+                user.setNickname(data[4]);
+
                 this.contacts.add(user);
-                fileReader.close();
             }
 
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+            System.out.println("No se ha encontrado el archivo.");
             e.printStackTrace();
         }
     }
     
     public void writeData(){
-        var output = new PrintWriter(fileName);
-
-        for(Contact user : this.contacts){
-            output.print(user.getName() + ";");
-
-            if(user.phoneNumbers.size() != 0){
-                for(String number : user.phoneNumbers){
-                    if(number != user.phoneNumbers.get(user.phoneNumbers.size()-1)){
-                        output.print(number + ",");
-                    }
-                    else{
-                        output.print(number + ";");
-                    }
-                }
-            }
-
-            output.print(user.getEmail() + ";");
-            output.print(user.getAddress() + ";");
-            output.print(user.getNickname());
-            output.println("");
-        }
-        output.close();
-    }
-
-    //Para archivos binarios
-    public void convertBinaryData(){
         try{
-            this.contacts.clear();
-            var file = new FileInputStream(binaryFileName);
-            var ois = new ObjectInputStream(file);
-
-            while(ois.hasNext()){
-                Contact user = ois.readObject();
-                this.contacts.add(user);
-            }
-
-            ois.close();
-        }catch (FileNotFoundException e) {
-            System.out.println("¡El fichero no existe!");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        };  
-    }
-
-    public void writeBinaryData(){
-        try{
-            var file = new FileInputStream(binaryFileName);
-            var oos = new ObjectOutputStream(file);
+            var output = new FileWriter(fileName);
 
             for(Contact user : this.contacts){
-                oos.writeObject(user);
+                output.write(user.getAttributes() + "\n");
             }
-
-            oos.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("El archivo no existe.");
+            output.close();
+            this.contacts.clear();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        };
-          
+            System.out.println("Archivo no encontrado.");
+            e.printStackTrace();
+        }
     }
 
     public void showContact(){
-        Screen.cleanScreen();
+        Screen.clearScreen();
         if(this.contacts.size() != 0){
             System.out.println("--LISTA DE CONTACTOS--");
-            for(Contact user : contacts){
+            for(Contact user : this.contacts){
                 user.showData();
                 System.out.println("________________________");
             }
@@ -178,10 +74,13 @@ public class Phonebook{
         else{
             System.out.println("No hay ningún contacto guardado.");
         }
+
+        System.out.print("Presione una tecla para continuar: ");
+        String opt = consoleInput.next();
     }
 
     public void modifyContact(){
-        Screen.cleanScreen();
+        Screen.clearScreen();
         if(this.contacts.size() != 0){
             Scanner input = new Scanner(System.in);
             
@@ -195,12 +94,12 @@ public class Phonebook{
             while(flag){
                 user.modifyData();
 
-                Screen.cleanScreen();
+                Screen.clearScreen();
                 System.out.println("¿Deseas modificar más datos al usuario?");
                 System.out.println("[1]- Sí.");
                 System.out.println("[2]- No.");
                 System.out.print("Ingrese una opción: ");
-                String option = input.next();
+                String option = input.nextLine();
 
                 switch(option){
                     case "1": break;
@@ -211,66 +110,56 @@ public class Phonebook{
                     default: break;
                 } 
             }
+
+            System.out.println("¿Deseas eliminar algún dato del contacto?");
+            System.out.println("[1]- Sí.");
+            System.out.println("[2]- No.");
+            System.out.print("Ingrese una opción: ");
+            String opt = consoleInput.next();
+
+            if(opt == "1"){
+                deleteContactData(user);
+            }
+
+            writeData();
             input.close();
         }
         else{
             System.out.println("No hay ningún contacto para modificar.");
         }
+        System.out.print("Presione una tecla para continuar: ");
+        String opt = consoleInput.next();
     }
 
     public void addContact(){
-        Screen.cleanScreen();
-        Scanner input = new Scanner(System.in);
-
+        Screen.clearScreen();
         Contact user = new Contact("","","","");
-        Boolean flag = true;
-        while(flag){
-            user.addData();
-
-            System.out.println("¿Deseas agregar más datos al usuario?");
-            System.out.println("[1]- Sí.");
-            System.out.println("[2]- No.");
-            System.out.print("Ingrese una opción: ");
-            String option = input.next();
-
-            switch(option){
-                case "1": break;
-                case "2": {
-                    flag = false;
-                    break;
-                }
-                default: break;
-            } 
-        }
+        user.addData();
 
         this.contacts.add(user);
+        System.out.println(this.contacts.size());
         writeData();
         //writeBinaryData();
 
-        input.close();
+        System.out.print("Presione una tecla para continuar: ");
+        String opt = consoleInput.next();
     }
 
-    public void deleteContactData(){
-        Screen.cleanScreen();
+    public void deleteContactData(Contact user){
+        Screen.clearScreen();
         if(this.contacts.size() != 0){
             Scanner input = new Scanner(System.in);
             
-            System.out.println("En este momento hay " + this.contacts.size() + "usuarios en la agenda.");
-            System.out.print("Indique la posición a modificar: ");
-            int index = input.nextInt();
-
-            Contact user = this.contacts.get(index);
-
             Boolean flag = true;
             while(flag){
                 user.deleteData();
 
-                Screen.cleanScreen();
+                Screen.clearScreen();
                 System.out.println("¿Deseas eliminar más datos al usuario?");
                 System.out.println("[1]- Sí.");
                 System.out.println("[2]- No.");
                 System.out.print("Ingrese una opción: ");
-                String option = input.next();
+                String option = input.nextLine();
 
                 switch(option){
                     case "1": break;
@@ -286,10 +175,12 @@ public class Phonebook{
         else{
             System.out.println("No hay ningún contacto para modificar.");
         }
+        System.out.print("Presione una tecla para continuar: ");
+        String opt = consoleInput.next();
     }
 
     public void deleteContact(){
-        Screen.cleanScreen();
+        Screen.clearScreen();
         if(this.contacts.size() != 0){
             Scanner input = new Scanner(System.in);
             
@@ -298,11 +189,14 @@ public class Phonebook{
             int index = input.nextInt();
             this.contacts.remove(index);
 
+            writeData();
             input.close();
         }
         else{
             System.out.println("No hay ningún contacto para eliminar.");
         }
+        System.out.print("Presione una tecla para continuar: ");
+        String opt = consoleInput.next();
     }
 
     public void verifyNumber(){
@@ -310,6 +204,7 @@ public class Phonebook{
     }
 
     public void searchContact(){
-        
+        System.out.print("Presione una tecla para continuar: ");
+        String opt = consoleInput.next();
     }
 }

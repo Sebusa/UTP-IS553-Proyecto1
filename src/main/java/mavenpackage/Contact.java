@@ -1,32 +1,35 @@
 /*Está clase representa a un contacto que será manejado por la agenda.
 Un contacto podrá añadir, modificar o eliminar sus propios datos en caso de ser necesario.
-Versión: 1.0*/
+Versión: 2.0*/
 package mavenpackage;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Contact implements Serializable{
-
-    private static final long serialVersionUID = 1L;
+public class Contact {
     Scanner input = new Scanner(System.in);
 
     private String name;
-    List<String> phoneNumbers = new ArrayList<>();
+    private List<String> phoneNumbers = new ArrayList<>();
     private String email;
     private String address;
     private String nickname;
 
-
-    //Constructor y métodos mutadores.
+    //Constructores y métodos mutadores
     public Contact(String name, String email, String address, String nickname) {
         this.setName(name);
         this.setEmail(email);
         this.setAddress(address);
         this.setNickname(nickname);
     }    
+
+    public Contact(){
+        this.setName("");
+        this.setEmail("");
+        this.setAddress("");
+        this.setNickname("");
+    }
 
     public String getNickname() {
         return nickname;
@@ -56,117 +59,131 @@ public class Contact implements Serializable{
         this.name = name;
     }
 
-    //Funciones básicas que brinda un contacto.
-    public void showData(){
-        Screen.cleanScreen();
-
-        System.out.println("Nombre: " + getName());
-        System.out.println("\nNúmeros telefónicos:\n");
-        showNumbers();
-        System.out.println("Correo electrónico: " + getEmail());
-        System.out.println("\nDirección: " + getAddress());
-        System.out.println("\nApodo: " + getNickname());
-    }
-
+    //Funciones elementale para la clase Contact
     public void addData(){
-        Screen.cleanScreen();
+        Screen.clearScreen();
 
-        String option;
-        System.out.println("¿Qué deseas agregar?\n");
+        String newName;
+        System.out.print("Ingresa el nombre: ");
+        newName = input.nextLine();
+        setName(newName);
 
-        System.out.println("[1]-Nombre.");
-        System.out.println("[2]-Número de teléfono.");
-        System.out.println("[3]-Correo electrónico.");
-        System.out.println("[4]-Dirección.");
-        System.out.println("[5]-Apodo.");
-        System.out.println("[Cualquier otra tecla]-Salir de la función.");
+        Boolean flag = true;
+        int numberOption;
+        while(flag){
+            addNumber();
+            System.out.println("¿Deseas ingresar más números?");
+            System.out.println("[1]- Sí.");
+            System.out.println("[2]- No.");
+            numberOption = input.nextInt();
+            if(numberOption != 1){
+                flag = false;
+            }
+        }
 
-        System.out.print("Ingresa la opción: ");
-        option = input.next();
+        System.out.println("¿Deseas ingresar un correo electrónico?");
+        System.out.println("[1]- Sí.");
+        System.out.println("[2]- No.");
+        int emailOption;
+        emailOption = input.nextInt();
+        System.out.println(emailOption);
+        if(emailOption == 1){
+            String newEmail;
+            System.out.print("Ingresa el correo electrónico: ");
+            newEmail = input.next();
+            setEmail(newEmail);
+        }
 
-        switch(option){
-            case "1": {
-                String newName;
-                System.out.println("Ingresa el nombre: ");
-                newName = input.nextLine();
-                setName(newName);
-                break;
-            }
-            case "2": {
-                addNumber();
-                break;
-            }
-            case "3": {
-                String newEmail;
-                System.out.println("Ingresa el correo electrónico: ");
-                newEmail = input.nextLine();
-                setEmail(newEmail);
-                break;
-            }
-            case "4": {
-                String newAddress;
-                System.out.println("Ingresa la dirección: ");
-                newAddress = input.nextLine();
-                setAddress(newAddress);
-                break;
-            }
-            case "5": {
-                String newNickname;
-                System.out.println("Ingresa el apodo: ");
-                newNickname = input.nextLine();
-                setNickname(newNickname);
-                break;
-            }
-            default: break;
+        System.out.println("¿Deseas ingresar una dirección?");
+        System.out.println("[1]- Sí.");
+        System.out.println("[2]- No.");
+        int addressOption;
+        addressOption = input.nextInt();
+        if(addressOption == 1){
+            String newAddress;
+            System.out.print("Ingresa la dirección: ");
+            newAddress = input.nextLine();
+            setAddress(newAddress);
+        }
+    
+        System.out.println("¿Deseas ingresar un apodo?");
+        System.out.println("[1]- Sí.");
+        System.out.println("[2]- No.");
+        int nickOption;
+        nickOption= input.nextInt();
+        if(nickOption == 1){
+            String newNickname;
+            System.out.print("Ingresa el apodo: ");
+            newNickname = input.next();
+            setNickname(newNickname);
         }
     }
 
+    public void showData(){
+        Screen.clearScreen();
+
+        System.out.println("Nombre: " + getName());
+        System.out.println("Números telefónicos:");
+        showNumbers();
+        
+        if(getEmail() != ""){
+            System.out.println("Correo electrónico: " + getEmail());
+        }
+        if(getAddress() != ""){
+            System.out.println("Dirección: " + getAddress());
+        }
+        if(getNickname() != ""){
+            System.out.println("Apodo: " + getNickname());
+        }
+
+    }
+
     public void modifyData(){
-        Screen.cleanScreen();
+        Screen.clearScreen();
 
-        String option;
-        System.out.println("¿Qué deseas modificar?\n");
-
+        int option;
+        System.out.println("¿Qué deseas modificar?");
         System.out.println("[1]-Nombre.");
         System.out.println("[2]-Número de teléfono.");
         System.out.println("[3]-Correo electrónico.");
         System.out.println("[4]-Dirección.");
         System.out.println("[5]-Apodo.");
-        System.out.println("[Cualquier otra tecla]-Salir de la función.");
+        System.out.println("[0]-Salir de la función.");
 
         System.out.print("Ingresa la opción: ");
-        option = input.next();
+        option = input.nextInt();
 
+        Screen.clearScreen();
         switch(option){
-            case "1": {
+            case 1: {
                 String newName;
-                System.out.println("Ingresa el nombre: ");
+                System.out.print("Ingresa el nombre: ");
                 newName = input.nextLine();
                 setName(newName);
                 break;
             }
-            case "2": {
+            case 2: {
                 modifyNumber();
                 break;
             }
-            case "3": {
+            case 3: {
                 String newEmail;
-                System.out.println("Ingresa el correo electrónico: ");
-                newEmail = input.nextLine();
+                System.out.print("Ingresa el correo electrónico: ");
+                newEmail = input.next();
                 setEmail(newEmail);
                 break;
             }
-            case "4": {
+            case 4: {
                 String newAddress;
-                System.out.println("Ingresa la dirección: ");
+                System.out.print("Ingresa la dirección: ");
                 newAddress = input.nextLine();
                 setAddress(newAddress);
                 break;
             }
-            case "5": {
+            case 5: {
                 String newNickname;
-                System.out.println("Ingresa el apodo: ");
-                newNickname = input.nextLine();
+                System.out.print("Ingresa el apodo: ");
+                newNickname = input.next();
                 setNickname(newNickname);
                 break;
             }
@@ -175,34 +192,34 @@ public class Contact implements Serializable{
     }
 
     public void deleteData(){
-        Screen.cleanScreen();
+        Screen.clearScreen();
 
-        String option;
-        System.out.println("¿Qué deseas eliminar?\n");
-
+        int option;
+        System.out.println("¿Qué deseas eliminar?");
         System.out.println("[1]-Número de teléfono.");
         System.out.println("[2]-Correo electrónico.");
         System.out.println("[3]-Dirección.");
         System.out.println("[4]-Apodo.");
-        System.out.println("[Cualquier otra tecla]-Salir de la función.");
+        System.out.println("[0]-Salir de la función.");
 
         System.out.println("Ingresa la opción: ");
-        option = input.next();
+        option = input.nextInt();
 
+        Screen.clearScreen();
         switch(option){
-            case "1": {
+            case 1: {
                 deleteNumber();
                 break;
             }
-            case "2": {
+            case 2: {
                 setEmail("");
                 break;
             }
-            case "3": {
+            case 3: {
                 setAddress("");
                 break;
             }
-            case "4": {
+            case 4: {
                 setNickname("");
                 break;
             }
@@ -210,35 +227,36 @@ public class Contact implements Serializable{
         }
     }
 
-    //Funciones adicionales para el manejo de la lista de números del contacto.
     public void addNumber(){
-        Screen.cleanScreen();
+        Screen.clearScreen();
 
         String number;
         System.out.print("Ingresa el número: ");
-        number = input.nextLine();
+        number = input.next();
         this.phoneNumbers.add(number);
         System.out.println("¡Número agregado!");
-
     }
-    public void addNumber(String number){
-        this.phoneNumbers.add(number);
+
+    public void showNumbers(){
+        int i = 0;
+        for(String number : this.phoneNumbers){
+            System.out.println(i + ") " + number);
+            i++;
+        }
     }
 
     public void modifyNumber(){
-        Screen.cleanScreen();
-
         if(this.phoneNumbers.size() != 0){
             System.out.println("Lista de números");
             showNumbers();
-            System.out.println("¿Qué número deseas modificar: ");
-            int option = input.nextInt();
+            System.out.print("¿Qué número deseas modificar? Ingresa el índice: ");
+            int index = input.nextInt();
 
-            if(option >= 0 && option < this.phoneNumbers.size()){
+            if(index >= 0 && index < this.phoneNumbers.size()){
                 String number;
                 System.out.print("Ingresa el número: ");
-                number = input.nextLine();
-                this.phoneNumbers.set(option, number);
+                number = input.next();
+                this.phoneNumbers.set(index, number);
                 System.out.println("¡Número modificado!");
             }
             else{
@@ -249,18 +267,16 @@ public class Contact implements Serializable{
             System.out.println("La lista de números está vacía.");
         }
     }
-    
+
     public void deleteNumber(){
-        Screen.cleanScreen();
-        
         if(this.phoneNumbers.size() != 0){
             System.out.println("Lista de números");
             showNumbers();
-            System.out.println("¿Qué número deseas eliminar?: ");
-            int option = input.nextInt();
+            System.out.print("¿Qué número deseas eliminar? Ingresa el índice: ");
+            int index = input.nextInt();
 
-            if(option >= 0 && option < this.phoneNumbers.size()){
-                this.phoneNumbers.remove(option);
+            if(index >= 0 && index < this.phoneNumbers.size()){
+                this.phoneNumbers.remove(index);
                 System.out.println("¡Número eliminado!");
             }
             else{
@@ -271,16 +287,9 @@ public class Contact implements Serializable{
             System.out.println("La lista de números está vacía.");
         }
     }
-    
-    public void showNumbers(){
-        if(this.phoneNumbers.size() != 0){
-            for(int i = 0; i < this.phoneNumbers.size(); i++){
-                System.out.println(i+1 + ")" + this.phoneNumbers.get(i) + "\n");
-            }
-        }
-        else{
-            System.out.println("La lista de números está vacía.");
-        }
-    }
 
+    public String getAttributes(){
+        return getName() + ";" + String.join(",",this.phoneNumbers) + ";" 
+                + getEmail() + ";" + getAddress() + ";" + getNickname();
+    }
 }
