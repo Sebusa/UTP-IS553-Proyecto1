@@ -8,13 +8,63 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Phonebook {
+public class Phonebook{
     private List<Contact> contacts = new ArrayList<>();
+    Scanner consoleInput = new Scanner(System.in);
 
     String fileName = "Resources\\Datos.txt";
+    String binaryFileName = "Resources\\Datos.dat";
     File dataBase = new File(fileName);
 
-    //Para mostrar los contactos primero debemos extraerlos del archivo
+    public void main(){
+        Boolean flag = true;
+
+        while(flag){
+            Screen.cleanScreen();
+        
+            System.out.println("--MENÚ DE OPCIONES--");
+            System.out.println("[1]- Agregar un contacto.");
+            System.out.println("[2]- Modificar un contacto.");
+            System.out.println("[3]- Eliminar un contacto.");
+            System.out.println("[4]- Mostrar la lista de contactos.");
+            System.out.println("[5]- Buscar un contacto.");
+            System.out.println("[0]- Salir del programa.");
+            System.out.print("Ingrese una opción: ");
+
+            String option = consoleInput.next();
+            switch(option){
+                case "1":{
+                    addContact();
+                    break;
+                }
+                case "2":{
+                    modifyContact();
+                    break;
+                }
+                case "3":{
+                    deleteContact();
+                    break;
+                }
+                case "4":{
+                    showContact();
+                    break;
+                }
+                case "5":{
+                    System.out.println("pollo");
+                    break;
+                }
+                case "0":{
+                    flag = false;
+                    break;
+                }
+                default:{
+                    break;
+                }
+            }
+        }
+    }
+
+    //Para archivos de texto
     public void convertData(){
         try {
             Scanner fileReader = new Scanner(dataBase);
@@ -48,9 +98,72 @@ public class Phonebook {
             e.printStackTrace();
         }
     }
-
+    
     public void writeData(){
+        var output = new PrintWriter(fileName);
 
+        for(Contact user : this.contacts){
+            output.print(user.getName() + ";");
+
+            if(user.phoneNumbers.size() != 0){
+                for(String number : user.phoneNumbers){
+                    if(number != user.phoneNumbers.get(user.phoneNumbers.size()-1)){
+                        output.print(number + ",");
+                    }
+                    else{
+                        output.print(number + ";");
+                    }
+                }
+            }
+
+            output.print(user.getEmail() + ";");
+            output.print(user.getAddress() + ";");
+            output.print(user.getNickname());
+            output.println("");
+        }
+        output.close();
+    }
+
+    //Para archivos binarios
+    public void convertBinaryData(){
+        try{
+            this.contacts.clear();
+            var file = new FileInputStream(binaryFileName);
+            var ois = new ObjectInputStream(file);
+
+            while(ois.hasNext()){
+                Contact user = ois.readObject();
+                this.contacts.add(user);
+            }
+
+            ois.close();
+        }catch (FileNotFoundException e) {
+            System.out.println("¡El fichero no existe!");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        };  
+    }
+
+    public void writeBinaryData(){
+        try{
+            var file = new FileInputStream(binaryFileName);
+            var oos = new ObjectOutputStream(file);
+
+            for(Contact user : this.contacts){
+                oos.writeObject(user);
+            }
+
+            oos.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("El archivo no existe.");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        };
+          
     }
 
     public void showContact(){
@@ -129,6 +242,11 @@ public class Phonebook {
                 default: break;
             } 
         }
+
+        this.contacts.add(user);
+        writeData();
+        //writeBinaryData();
+
         input.close();
     }
 

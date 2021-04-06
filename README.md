@@ -8,7 +8,7 @@ El proyecto fue creado con la herramienta _Maven_ con __JDK 15__ y el manejo de 
 El proyecto está distribuido en tres carpetas fundamentalmente:
 * ___lib___:
     Esta carpeta recolecta los archivos necesarios que aseguran el buen funcionamiento del proyecto.
-* ___Resources___:
+* ___resources___:
     Esta carpeta conforma los recursos utilizados por el programa en caso necesario. Se conforma por:
     * __Datos__:
         La base de datos que maneja el programa para la recolección de contactos.

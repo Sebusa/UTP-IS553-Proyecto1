@@ -3,15 +3,18 @@ Un contacto podrá añadir, modificar o eliminar sus propios datos en caso de se
 Versión: 1.0*/
 package mavenpackage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Contact {
+public class Contact implements Serializable{
+
+    private static final long serialVersionUID = 1L;
     Scanner input = new Scanner(System.in);
 
     private String name;
-    private List<String> phoneNumbers = new ArrayList<>();
+    List<String> phoneNumbers = new ArrayList<>();
     private String email;
     private String address;
     private String nickname;
@@ -279,4 +282,5 @@ public class Contact {
             System.out.println("La lista de números está vacía.");
         }
     }
+
 }
