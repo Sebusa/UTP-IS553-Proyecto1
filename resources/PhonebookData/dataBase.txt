@@ -1,1 +1,3 @@
-Sebastian Buitrago;3106105908,3215664896;s.buitrago2@utp.edu.co;null;negro
+Daniel Guerrero;3115448667,3217564868;daniel.guerrero@utp.edu.co;null;visaje
+Sebastian Buitrago;3106105908;s.buitrago2@utp.edu.co;null;negro
+Carlos Romero;3106105968;carlos.romero@utp.edu.co;null;Romeo

@@ -13,7 +13,6 @@ public class ContactMain {
         Boolean flag = true;
         Contact user = new Contact();
         String option;
-        String continueKey;
 
         while(flag){
             Screen.clearScreen();
@@ -29,6 +28,7 @@ public class ContactMain {
 
             option = input.next();
 
+            Screen.clearScreen();
             switch(option){
                 case "1":{
                     user.addData();
@@ -59,7 +59,7 @@ public class ContactMain {
                 }
             }
             System.out.print("Presione una tecla para continuar: ");
-            continueKey = input.next();
+            input.next();
         }
     }
 }

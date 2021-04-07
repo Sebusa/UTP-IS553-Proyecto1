@@ -10,8 +10,6 @@ public class Main{
         Boolean flag = true;
         Phonebook agenda = new Phonebook();
         String option;
-        String continueKey;
-
         while(flag){
             Screen.clearScreen();
         
@@ -27,6 +25,7 @@ public class Main{
 
             option = input.next();
 
+            Screen.clearScreen();
             switch(option){
                 case "1":{
                     agenda.addContact();
@@ -45,6 +44,7 @@ public class Main{
                     break;
                 }
                 case "5":{
+                    agenda.searchContact();
                     break;
                 }
                 case "6":{
@@ -56,11 +56,12 @@ public class Main{
                     break;
                 }
                 default:{
+                    System.out.println("Opción no válida.");
                     break;
                 }
             }
             System.out.print("Presione una tecla para continuar: ");
-            continueKey = input.next();
+            input.next();
         }
     }
 }

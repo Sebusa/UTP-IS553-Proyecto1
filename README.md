@@ -10,11 +10,10 @@ El proyecto está distribuido en tres carpetas fundamentalmente:
     Esta carpeta recolecta los archivos necesarios que aseguran el buen funcionamiento del proyecto.
 * ___resources___:
     Esta carpeta conforma los recursos utilizados por el programa en caso necesario. Se conforma por:
-    * __Datos__:
-        La base de datos que maneja el programa para la recolección de contactos.
-    * __Diagrama UML__: El modelo de dato en UML del proyecto.
-    * __POM__: 
-        El archivo .xml que viene con la estructura del proyecto incorporado por _Maven_.
+    * __PhonebookData__:
+        La base de datos que maneja el programa.
+    * __user__:
+        La carpeta donde se guardan los archivos generados por el usuario.
 * ___src___:
     Esta carpeta contiene los programas _.java_ del proyecto. Se conforma por:
     * __main__:

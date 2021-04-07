@@ -7,7 +7,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.StringTokenizer;
+import java.util.regex.*;
+
 public class Phonebook {
     private List<Contact> contactsBook = new ArrayList<>();
     Scanner input = new Scanner(System.in);
@@ -17,7 +18,7 @@ public class Phonebook {
 
     public void writeData(String fileName){
         try{
-            var fileOutput = new FileWriter(fileName);
+            var fileOutput = new FileWriter(fileName, true);
 
             for(Contact user : this.contactsBook){
                 fileOutput.write(user.getAttributes() + "\n");
@@ -65,7 +66,6 @@ public class Phonebook {
     }
 
     public void showContacts(){
-        Screen.clearScreen();
 
         convertData(filePath);
         if(this.contactsBook.size() != 0){
@@ -86,15 +86,17 @@ public class Phonebook {
 
         this.contactsBook.add(user);
         writeData(filePath);
+
+        Screen.clearScreen();
+        System.out.println("¡Usuario ingresado!");
     }
 
     public void modifyContact(){
-        Screen.clearScreen();
-
         if(this.contactsBook.size() != 0){
             System.out.println("En este momento hay " + this.contactsBook.size() 
                                 + " contactos guardados.");
             int index;
+            System.out.println("(Recuerda que el índice comienza desde 0)");
             System.out.print("Ingrese la posición a modificar de la lista: ");
             index = input.nextInt();
 
@@ -132,6 +134,9 @@ public class Phonebook {
 
                 this.contactsBook.set(index, user);
                 writeData(filePath);
+
+                Screen.clearScreen();
+                System.out.println("¡Usuario modificado!");
             }
             else{
                 System.out.println("Posición no válida.");
@@ -143,18 +148,19 @@ public class Phonebook {
     }
 
     public void deleteContact(){
-        Screen.clearScreen();
-
         if(this.contactsBook.size() != 0){
             System.out.println("En este momento hay " + this.contactsBook.size() 
                                 + " contactos guardados.");
             int index;
+            System.out.println("(Recuerda que el índice comienza desde 0)");
             System.out.print("Ingrese la posición a eliminar de la lista: ");
             index = input.nextInt();
 
             if(index >= 0 && index < this.contactsBook.size()){
                 this.contactsBook.remove(index);
                 writeData(filePath);
+                Screen.clearScreen();
+                System.out.println("¡Usuario eliminado!");
             }
             else{
                 System.out.println("Posición no válida.");
@@ -165,45 +171,152 @@ public class Phonebook {
         }
     }
 
-    public void verifyNumber(){
+    //Verdadero: Repetido - Falso: No repetido
+    public Boolean verifyNumber(String number){
+        convertData(filePath);
+
+        Boolean answer = false;
+        for(Contact user : this.contactsBook){
+            answer = user.getPhoneNumbers().contains(number);
+            if(answer){
+                break;
+            }
+        }
+        return answer;
+    }
+
+    public Boolean searchWord(String searchedWord, String sentence){
+        Pattern wordPattern = Pattern.compile(searchedWord, Pattern.CASE_INSENSITIVE);
+        Matcher wordMatcher = wordPattern.matcher(sentence);
+        Boolean wordFound = wordMatcher.find();
+        return wordFound;
 
     }
 
-    public void searchContact(){
-        
+    public void searchContact(){ 
+
+        convertData(filePath);
+
+        String option;
+        System.out.println("Escoge un parámetro de búsqueda");
+        System.out.println("[1]- Nombre.");
+        System.out.println("[2]- Número de teléfono.");
+        System.out.println("[3]- Correo electrónico.");
+        System.out.println("[4]- Dirección.");
+        System.out.println("[5]- Apodo.");
+        System.out.println("[0]- Salir de la función.");
+        System.out.print("Ingrese una opción: ");
+        option = input.next();
+
+        Screen.clearScreen();
+        String wordToSearch = null;
+        List<String> sentencesToCompare = new ArrayList<>();
+        switch(option){
+            case "1":{
+                System.out.print("Ingrese el nombre a buscar: ");
+                wordToSearch = input.next();
+
+                for(Contact user : this.contactsBook){
+                    sentencesToCompare.add(user.getName());
+                }
+                break;
+            }
+            case "2":{
+                System.out.println("Ingrese el número telefónico a buscar: ");
+                wordToSearch = input.next();
+                for(Contact user : this.contactsBook){
+                    for(String number : user.getPhoneNumbers()){
+                        sentencesToCompare.add(number);
+                    }
+                }
+
+                break;
+            }
+            case "3":{
+                System.out.print("Ingrese el correo electrónico a buscar: ");
+                wordToSearch = input.next();
+
+                for(Contact user : this.contactsBook){
+                    sentencesToCompare.add(user.getEmail());
+                }
+                break;
+            }
+            case "4":{
+                System.out.print("Ingrese la dirección a buscar: ");
+                wordToSearch = input.next();
+
+                for(Contact user : this.contactsBook){
+                    sentencesToCompare.add(user.getName());
+                }
+                break;
+            }
+            case "5":{
+                System.out.print("Ingrese el apodo a buscar: ");
+                wordToSearch = input.next();
+
+                for(Contact user : this.contactsBook){
+                    sentencesToCompare.add(user.getName());
+                }
+                break;
+            }
+            case "0":{
+                break;
+            }
+            default:{
+                System.out.println("Opción no válida.");
+                break;
+            }
+        }
+
+        List<Contact> matchedContacts = new ArrayList<>();
+        if(wordToSearch != null){
+            for(String sentence : sentencesToCompare){
+                if(searchWord(wordToSearch, sentence)){
+                    int index = sentencesToCompare.indexOf(sentence);
+                    Contact user = this.contactsBook.get(index);
+                    matchedContacts.add(user);
+                }
+            }
+        }
+
+        if(matchedContacts.size() != 0){
+            Screen.clearScreen();
+
+            System.out.println("Usuarios que coinciden:");
+            for(Contact user : matchedContacts){
+                System.out.println("________________");
+                user.showData();
+            }
+        }
+        else{
+            System.out.println("No hay ningún contacto que coincida con el criterio.");
+        }
     }
 
     public void exportDataFile(){
-        Screen.clearScreen();
-
         convertData(filePath);
 
         String fileName;
         System.out.println("Se va a importar un archivo con los datos de los contactos.");
         System.out.print("Ingrese el nombre del archivo: ");
         fileName = input.next();
+        System.out.println("Generando archivo...");
 
-        if(fileName != dataBaseFile){
-            System.out.println("Generando archivo...");
+        String newFilePath = "resources/user/" + fileName + ".txt";
 
-            String newFilePath = "resources/user/" + fileName + ".txt";
-
-            var file = new File(newFilePath);
+        var file = new File(newFilePath);
             
-            if(!file.exists()){
-                try{
-                    file.createNewFile();
-                } catch(IOException e){
-                    e.printStackTrace();
-                }
+        if(!file.exists()){
+            try{
+                file.createNewFile();
+            } catch(IOException e){
+                e.printStackTrace();
             }
-            writeData(newFilePath);
-            System.out.println("¡Archivo generado!");
-            System.out.println("Lo puedes encontrar en la carpeta de resources," 
-                                + " en la subcarpeta user.");
         }
-        else{
-            System.out.println("¡Lo siento, no puedes nombrar así el archivo!");
-        }
+        writeData(newFilePath);
+        System.out.println("¡Archivo generado!");
+        System.out.println("Lo puedes encontrar en la carpeta de resources," 
+                            + " en la subcarpeta user.");
+        
     }
 }

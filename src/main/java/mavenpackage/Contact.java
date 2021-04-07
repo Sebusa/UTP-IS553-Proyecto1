@@ -59,9 +59,12 @@ public class Contact {
         this.name = name;
     }
 
+    public List<String> getPhoneNumbers(){
+        return this.phoneNumbers;
+    }
+
     //Funciones elementale para la clase Contact
     public void addData(){
-        Screen.clearScreen();
 
         String newName;
         System.out.print("Ingresa el nombre: ");
@@ -120,7 +123,6 @@ public class Contact {
     }
 
     public void showData(){
-        Screen.clearScreen();
 
         System.out.println("Nombre: " + getName());
         System.out.println("Números telefónicos:");
@@ -139,8 +141,6 @@ public class Contact {
     }
 
     public void modifyData(){
-        Screen.clearScreen();
-
         int option;
         System.out.println("¿Qué deseas modificar?");
         System.out.println("[1]-Nombre.");
@@ -192,8 +192,6 @@ public class Contact {
     }
 
     public void deleteData(){
-        Screen.clearScreen();
-
         int option;
         System.out.println("¿Qué deseas eliminar?");
         System.out.println("[1]-Número de teléfono.");
@@ -229,13 +227,21 @@ public class Contact {
 
     //Funciones adicionales para el manejo de números telefónicos para el contacto
     public void addNumber(){
-        Screen.clearScreen();
-
+      
         String number;
         System.out.print("Ingresa el número: ");
         number = input.next();
-        this.phoneNumbers.add(number);
-        System.out.println("¡Número agregado!");
+
+        Phonebook agenda = new Phonebook();
+        Boolean verifiedNumber = agenda.verifyNumber(number);
+
+        if(!verifiedNumber){
+            this.phoneNumbers.add(number);
+            System.out.println("¡Número agregado!");
+        }
+        else{
+            System.out.println("El número ya está en la agenda. No se puede ingresar.");
+        }
     }
 
     public void addNumber(String number){
