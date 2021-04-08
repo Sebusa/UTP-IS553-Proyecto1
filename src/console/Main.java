@@ -20,9 +20,9 @@ public class Main{
             System.out.println("[4]- Mostrar lista de contactos.");
             System.out.println("[5]- Buscar un contacto.");
             System.out.println("[6]- Exportar un archivo de datos.");
+            System.out.println("[7]- Importar un archivo de datos.");
             System.out.println("[0]- Salir del programa.");
             System.out.print("Ingrese una opción: ");
-
             option = input.next();
 
             Screen.clearScreen();
@@ -49,6 +49,10 @@ public class Main{
                 }
                 case "6":{
                     agenda.exportDataFile();
+                    break;
+                }
+                case "7":{
+                    agenda.importFile();
                     break;
                 }
                 case "0":{
