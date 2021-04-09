@@ -1,3 +1,3 @@
-Alejandro Gomez;310610159098;alejandronator@yahoo.com;null;godnez
+Alejandro Gomez;3134567896;alejandronator@yahoo.com;Manizales;godnez
 Sebastian Buitrago;3214566786;s.buitrago@utp.edu.co;Roldanillo Valle;negro
 Carlos Romero;321245665;soyromeo@yahoo.com;Roldanillo Valle;romeo

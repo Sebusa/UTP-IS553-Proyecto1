@@ -1,7 +1,9 @@
-/*Menú alternativo para el uso de la clase Contact.
+/*
+Menú alternativo para el uso de la clase Contact.
 El propósito de este menú es demostrar la correcta funcionalidad de la clase, así como
 tipo "prueba".
-Versión: 1.0*/
+Versión: 1.0
+*/
 package main.java.mavenpackage;
 
 import java.util.Scanner;
@@ -9,6 +11,7 @@ import mavenpackage.*;
 
 public class ContactMain {
     static Scanner input = new Scanner(System.in);
+
     public static void main(String[] args){
         Boolean flag = true;
         Contact user = new Contact();
@@ -16,7 +19,6 @@ public class ContactMain {
 
         while(flag){
             Screen.clearScreen();
-        
             System.out.println("--MENÚ DE OPCIONES--");
             System.out.println("[1]- Agregar datos.");
             System.out.println("[2]- Modificar datos.");
@@ -25,7 +27,6 @@ public class ContactMain {
             System.out.println("[5]- Atributos.");
             System.out.println("[0]- Salir del programa.");
             System.out.print("Ingrese una opción: ");
-
             option = input.next();
 
             Screen.clearScreen();

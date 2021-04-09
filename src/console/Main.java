@@ -1,5 +1,7 @@
-/*Menú principal para el manejo de la agenda telefónica. Ofrece un menú por consola con las opciones disponibles.
-Version: 1.0*/
+/*
+Menú principal para el manejo de la agenda telefónica. Ofrece un menú por consola con las opciones disponibles.
+Version: 1.0
+*/
 import java.util.Scanner;
 import mavenpackage.*;
 
@@ -10,9 +12,9 @@ public class Main{
         Boolean flag = true;
         Phonebook agenda = new Phonebook();
         String option;
+
         while(flag){
             Screen.clearScreen();
-        
             System.out.println("--MENÚ DE OPCIONES--");
             System.out.println("[1]- Agregar un contacto.");
             System.out.println("[2]- Modificar un contacto.");

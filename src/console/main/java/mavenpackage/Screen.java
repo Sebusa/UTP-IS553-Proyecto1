@@ -1,5 +1,7 @@
-/*Clase adicional que permite limpiar la consola.
-Versión: 2.0*/
+/*
+Clase adicional que permite limpiar la consola.
+Versión: 2.0
+*/
 package mavenpackage;
 
 public class Screen {
@@ -11,8 +13,11 @@ public class Screen {
         }
     }
 
-    /*public static void clearScreen(){
+    /*
+    Función alterna para limpiar la consola
+    public static void clearScreen(){
         System.out.print("\033[H\033[2J");   
         System.out.flush(); 
-    }*/
+    }
+    */
 }

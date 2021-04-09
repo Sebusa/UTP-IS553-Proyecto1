@@ -1,6 +1,8 @@
-/*Está clase representa a un contacto que será manejado por la agenda.
+/*
+Está clase representa a un contacto que será manejado por la agenda.
 Un contacto podrá añadir, modificar o eliminar sus propios datos en caso de ser necesario.
-Versión: 2.0*/
+Versión: 2.0
+*/
 package mavenpackage;
 
 import java.util.ArrayList;
@@ -63,7 +65,11 @@ public class Contact {
         return this.phoneNumbers;
     }
 
-    //Funciones básicas para la clase Contact
+    /*
+    Funciones básicas del programa 
+    */
+
+    //Función para añadir datos al contacto
     public void addData(){
         String newName;
         System.out.print("Ingresa el nombre: ");
@@ -122,23 +128,30 @@ public class Contact {
         }
     }
 
+    //Función para mostrar los datos del contacto
     public void showData(){
         System.out.println("Nombre: " + getName());
+
         System.out.println("Números telefónicos:");
         showNumbers();
+
         if(getEmail() != null || getEmail() != "null"){
             System.out.println("Correo electrónico: " + getEmail());
         }
+
         if(getAddress() != null || getAddress() != "null"){
             System.out.println("Dirección: " + getAddress());
         }
+
         if(getNickname() != null || getNickname() != "null"){
             System.out.println("Apodo: " + getNickname());
         }
     }
 
+    //Función para modificar datos del contacto
     public void modifyData(){
         int option;
+
         System.out.println("¿Qué deseas modificar?");
         System.out.println("[1]-Nombre.");
         System.out.println("[2]-Número de teléfono.");
@@ -154,7 +167,7 @@ public class Contact {
         switch(option){
             case 1: {
                 String newName;
-                System.out.print("Ingresa el nombre: ");
+                System.out.print("Ingresa el nuevo nombre: ");
                 newName = input.nextLine();
                 setName(newName);
                 break;
@@ -165,21 +178,21 @@ public class Contact {
             }
             case 3: {
                 String newEmail;
-                System.out.print("Ingresa el correo electrónico: ");
+                System.out.print("Ingresa el nuevo correo electrónico: ");
                 newEmail = input.next();
                 setEmail(newEmail);
                 break;
             }
             case 4: {
                 String newAddress;
-                System.out.print("Ingresa la dirección: ");
+                System.out.print("Ingresa la nueva dirección: ");
                 newAddress = input.nextLine();
                 setAddress(newAddress);
                 break;
             }
             case 5: {
                 String newNickname;
-                System.out.print("Ingresa el apodo: ");
+                System.out.print("Ingresa el nuevo apodo: ");
                 newNickname = input.next();
                 setNickname(newNickname);
                 break;
@@ -191,8 +204,10 @@ public class Contact {
         }
     }
 
+    //Función para eliminar datos del contacto
     public void deleteData(){
         int option;
+
         System.out.println("¿Qué deseas eliminar?");
         System.out.println("[1]-Número de teléfono.");
         System.out.println("[2]-Correo electrónico.");
@@ -228,9 +243,14 @@ public class Contact {
         }
     }
 
-    //Funciones para el manejo de números telefónicos para el contacto
+    /*
+    Funciones adicionales para el manejo de números telefónicos
+    */
+
+    //Añadir un número
     public void addNumber(){
         String number;
+
         System.out.print("Ingresa el número: ");
         number = input.next();
 
@@ -238,6 +258,7 @@ public class Contact {
             Long.parseLong(number);
             Phonebook agenda = new Phonebook();
             Boolean verifiedNumber = agenda.verifyNumber(number);
+
             agenda.getContactsBook().clear();
             if(!verifiedNumber){
                this.phoneNumbers.add(number);
@@ -256,14 +277,17 @@ public class Contact {
             this.phoneNumbers.add(number);
     }
 
+    //Mostrar los números del contacto
     public void showNumbers(){
         int i = 1;
+
         for(String number : this.phoneNumbers){
             System.out.println(i + ") " + number);
             i++;
         }
     }
 
+    //Modificar un número
     public void modifyNumber(){
         if(this.phoneNumbers.size() != 0){
             System.out.println("Lista de números");
@@ -275,7 +299,8 @@ public class Contact {
 
             if(index >= 0 && index < this.phoneNumbers.size()){
                 String number;
-                System.out.print("Ingresa el número: ");
+
+                System.out.print("Ingresa el nuevo número: ");
                 number = input.next();
 
                 Phonebook agenda = new Phonebook();
@@ -300,6 +325,7 @@ public class Contact {
         }
     }
 
+    //Eliminar un número
     public void deleteNumber(){
         if(this.phoneNumbers.size() != 0){
             System.out.println("Lista de números");
@@ -308,6 +334,7 @@ public class Contact {
             System.out.print("¿Qué número deseas eliminar? Ingresa el índice: ");
             int index = input.nextInt();
             input.nextLine();
+            
             if(index >= 0 && index < this.phoneNumbers.size()){
                 this.phoneNumbers.remove(index);
                 System.out.println("¡Número eliminado!");
