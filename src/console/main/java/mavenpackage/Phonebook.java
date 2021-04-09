@@ -378,7 +378,22 @@ public class Phonebook {
                     user.setName(dataRecolected[0]);
                     String[] phoneNumbers = dataRecolected[1].split(",");
                     for(String number : phoneNumbers){
-                        user.addNumber(number);
+                        try{
+                            Integer.parseInt(number);
+                            if(!verifyImportedNumbers(number)){
+                                user.addNumber(number);
+                            }
+                            else{
+                                System.out.println("Hay un número repetido en el archivo importado.");
+                                fileVerified = false;
+                                break;
+                            }
+                        }catch(Exception e){
+                            System.out.println("Los números registrados no son válidos.");
+                            e.printStackTrace();
+                            fileVerified = false;
+                            break;
+                        }
                     }
                     user.setEmail(dataRecolected[2]);
                     user.setAddress(dataRecolected[3]);
@@ -394,6 +409,17 @@ public class Phonebook {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public Boolean verifyImportedNumbers(String number){
+        Boolean answer = false;
+        for(Contact user : this.contactsBook){
+            answer = user.getPhoneNumbers().contains(number);
+            if(answer){
+                break;
+            }
+        }
+        return answer;
     }
 
     public void showImportedData(){
