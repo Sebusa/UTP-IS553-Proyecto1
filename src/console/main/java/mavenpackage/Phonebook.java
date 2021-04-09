@@ -13,9 +13,9 @@ public class Phonebook {
     Scanner input = new Scanner(System.in);
     //Atributos básicos. Registro de la agenda y el archivo que manejará como base de datos.
     private List<Contact> contactsBook = new ArrayList<>();
-    String dataBaseFile = "dataBase";
-    String filePath = "resources/data/" + dataBaseFile +".txt";
+    String filePath = "resources/data/dataBase.txt";
 
+    //Métodos de retorno básico
     public String getFilePath(){
         return filePath;
     }
@@ -31,7 +31,8 @@ public class Phonebook {
         try{
             var fileOutput = new FileWriter(fileName, true);
             for(Contact user : this.contactsBook){
-                fileOutput.write(user.getAttributes() + "\n");
+                fileOutput.write(user.getAttributes());
+                fileOutput.write("\n");
             }
             fileOutput.close();
         } catch(IOException e){
@@ -54,10 +55,10 @@ public class Phonebook {
     }
 
     //Función para leer datos de un archivo
-    public void convertData(String fileName){
+    public void convertData(){
         this.contactsBook.clear();
         try{
-            var fileInput = new BufferedReader(new FileReader(fileName));
+            var fileInput = new BufferedReader(new FileReader(this.filePath));
             String[] dataRecolected;
             String stringBuffer;
             while((stringBuffer = fileInput.readLine()) != null){
@@ -80,79 +81,9 @@ public class Phonebook {
         }
     }
 
-    public void convertFileData(String fileName){
-        this.contactsBook.clear();
-        try{
-            var fileInput = new BufferedReader(new FileReader(fileName));
-            String[] dataRecolected;
-            String stringBuffer;
-            while((stringBuffer = fileInput.readLine()) != null){
-                dataRecolected = stringBuffer.split(";");
-                try{
-                    var user = new Contact();
-                    Boolean phoneNumberError = false;
-                    try{
-                        String[] phoneNumbers = dataRecolected[1].split(",");
-                        for(String number : phoneNumbers){
-                            //Verificar si un número está conformado solo de letras
-                            Integer numberToVerify = Integer.parseInt(number);
-
-                            Boolean verifiedNumber = verifyNumber(number, fileName);
-                            this.getContactsBook().clear();
-                            if(!verifiedNumber){
-                                user.addNumber(number);
-                            }
-                            else{
-                                System.out.println("Problema con el número " + numberToVerify
-                                                    + ": El número ya está registrado");
-                                phoneNumberError = true;
-                                break;
-                            }
-                        }
-                    } catch(Exception e){
-                        e.printStackTrace();
-                        System.out.println("La lista de números no cumple con la estructura requerida.");
-                    }
-
-                    if(!phoneNumberError){
-                        user.setName(dataRecolected[0]);
-                        user.setEmail(dataRecolected[2]);
-                        user.setAddress(dataRecolected[3]);
-                        user.setNickname(dataRecolected[4]);
-                        this.contactsBook.add(user);
-                    }
-                    else{
-                        System.out.println("El archivo no será validado.");
-                        break;
-                    }
-                } catch(IOError e){
-                    e.printStackTrace();
-                    System.out.println("El archivo no cumple con la estructura requerida.");
-                }
-            }
-            fileInput.close();
-        } catch(IOException e){
-            System.out.println("Archivo no encontrado.");
-            e.printStackTrace();
-        }
-    }
-
     //Funciones básicas del manejo de contactos
     public void showContacts(){
-        convertData(filePath);
-        if(this.contactsBook.size() != 0){
-            System.out.println("--LISTA DE CONTACTOS--");
-            for(Contact user : this.contactsBook){
-                user.showData();
-                System.out.println("________________________");
-            }
-        }
-        else{
-            System.out.println("No hay ningún contacto guardado.");
-        }
-    }
-
-    public void showContactsFile(){
+        convertData();
         if(this.contactsBook.size() != 0){
             System.out.println("--LISTA DE CONTACTOS--");
             for(Contact user : this.contactsBook){
@@ -175,6 +106,7 @@ public class Phonebook {
     }
 
     public void modifyContact(){
+        convertData();
         if(this.contactsBook.size() != 0){
             System.out.println("En este momento hay " + this.contactsBook.size() 
                                 + " contactos guardados.");
@@ -229,6 +161,7 @@ public class Phonebook {
     }
 
     public void deleteContact(){
+        convertData();
         if(this.contactsBook.size() != 0){
             System.out.println("En este momento hay " + this.contactsBook.size() 
                                 + " contactos guardados.");
@@ -253,8 +186,8 @@ public class Phonebook {
 
     /*Función que verifica si un número ya está registrado.
     Verdadero: Repetido - Falso: No repetido*/
-    public Boolean verifyNumber(String number, String fileName){
-        convertData(fileName);
+    public Boolean verifyNumber(String number){
+        convertData();
         Boolean answer = false;
         for(Contact user : this.contactsBook){
             answer = user.getPhoneNumbers().contains(number);
@@ -274,7 +207,7 @@ public class Phonebook {
     }
 
     public void searchContact(){ 
-        convertData(filePath);
+        convertData();
         String option;
         System.out.println("Escoge un parámetro de búsqueda");
         System.out.println("[1]- Nombre.");
@@ -375,7 +308,7 @@ public class Phonebook {
 
     //Función para permitir el usuario exportar un archivo personal.
     public void exportDataFile(){
-        convertData(filePath);
+        convertData();
         String fileName;
         System.out.println("Se va a importar un archivo con los datos de los contactos.");
         System.out.print("Ingrese el nombre del archivo: ");
@@ -410,11 +343,69 @@ public class Phonebook {
         file = input.next();
         
         pathToSearch = "resources/user/" + file;
+        verifyFile(pathToSearch);
+        Screen.clearScreen();
         System.out.println("Buscando archivo...");
-        convertFileData(pathToSearch);
 
-        System.out.println();
-        showContactsFile();
+        if(verifyFile(pathToSearch)){
+            System.out.println("¡Archivo cargado correctamente!");
+            showImportedData();
+            this.contactsBook.clear();
+        }
+        else{
+            System.out.println("El archivo no es válido. Se cancela la importación.");
+        }
+    }
+
+    public Boolean verifyFile(String fileName){
         this.contactsBook.clear();
+        try{
+            var fileToOpen = new BufferedReader(new FileReader(fileName));
+            String[] dataRecolected;
+            String stringBuffer;
+
+            Boolean fileVerified = true;
+            while((stringBuffer = fileToOpen.readLine()) != null){
+                dataRecolected = stringBuffer.split(";");
+
+                if(dataRecolected.length != 5){
+                    System.out.println("El archivo no cumple con la estructura.");
+                    fileVerified = false;
+                    break;
+                }
+                else{
+                    var user = new Contact();
+                    user.setName(dataRecolected[0]);
+                    String[] phoneNumbers = dataRecolected[1].split(",");
+                    for(String number : phoneNumbers){
+                        user.addNumber(number);
+                    }
+                    user.setEmail(dataRecolected[2]);
+                    user.setAddress(dataRecolected[3]);
+                    user.setNickname(dataRecolected[4]);
+                    this.contactsBook.add(user);
+                }
+            }
+
+            fileToOpen.close();
+            return fileVerified;
+        }catch(IOException e){
+            System.out.println("Archivo no encontrado.");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void showImportedData(){
+        if(this.contactsBook.size() != 0){
+            System.out.println("--LISTA DE CONTACTOS--");
+            for(Contact user : this.contactsBook){
+                user.showData();
+                System.out.println("________________________");
+            }
+        }
+        else{
+            System.out.println("No hay ningún contacto guardado.");
+        }
     }
 }

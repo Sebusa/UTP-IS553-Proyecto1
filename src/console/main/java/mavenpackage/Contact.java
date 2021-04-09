@@ -231,7 +231,7 @@ public class Contact {
         number = input.next();
 
         Phonebook agenda = new Phonebook();
-        Boolean verifiedNumber = agenda.verifyNumber(number, agenda.getFilePath());
+        Boolean verifiedNumber = agenda.verifyNumber(number);
         agenda.getContactsBook().clear();
         if(!verifiedNumber){
             this.phoneNumbers.add(number);
@@ -268,8 +268,10 @@ public class Contact {
                 number = input.next();
 
                 Phonebook agenda = new Phonebook();
-                Boolean verifiedNumber = agenda.verifyNumber(number, agenda.getFilePath());
+                Boolean verifiedNumber = agenda.verifyNumber(number);
                 agenda.getContactsBook().clear();
+                
+                Screen.clearScreen();
                 if(!verifiedNumber){
                     this.phoneNumbers.set(index, number);
                     System.out.println("¡Número modificado!");
