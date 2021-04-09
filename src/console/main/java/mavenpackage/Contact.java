@@ -100,6 +100,7 @@ public class Contact {
         System.out.println("[2]- No.");
         int addressOption;
         addressOption = input.nextInt();
+        input.nextLine();
         if(addressOption == 1){
             String newAddress;
             System.out.print("Ingresa la dirección: ");
@@ -112,10 +113,11 @@ public class Contact {
         System.out.println("[2]- No.");
         int nickOption;
         nickOption= input.nextInt();
+        input.nextLine();
         if(nickOption == 1){
             String newNickname;
             System.out.print("Ingresa el apodo: ");
-            newNickname = input.next();
+            newNickname = input.nextLine();
             setNickname(newNickname);
         }
     }
@@ -146,6 +148,7 @@ public class Contact {
         System.out.println("[0]-Salir de la función.");
         System.out.print("Ingresa la opción: ");
         option = input.nextInt();
+        input.nextLine();
 
         Screen.clearScreen();
         switch(option){
@@ -198,6 +201,7 @@ public class Contact {
         System.out.println("[0]-Salir de la función.");
         System.out.println("Ingresa la opción: ");
         option = input.nextInt();
+        input.nextLine();
 
         Screen.clearScreen();
         switch(option){
@@ -230,15 +234,21 @@ public class Contact {
         System.out.print("Ingresa el número: ");
         number = input.next();
 
-        Phonebook agenda = new Phonebook();
-        Boolean verifiedNumber = agenda.verifyNumber(number);
-        agenda.getContactsBook().clear();
-        if(!verifiedNumber){
-            this.phoneNumbers.add(number);
-            System.out.println("¡Número agregado!");
-        }
-        else{
-            System.out.println("El número ya está en la agenda. No se puede ingresar.");
+        try{
+            Long.parseLong(number);
+            Phonebook agenda = new Phonebook();
+            Boolean verifiedNumber = agenda.verifyNumber(number);
+            agenda.getContactsBook().clear();
+            if(!verifiedNumber){
+               this.phoneNumbers.add(number);
+               System.out.println("¡Número agregado!");
+            }
+            else{
+                System.out.println("El número ya está en la agenda. No se puede ingresar.");
+            }
+        } catch(Exception e){
+            Screen.clearScreen();
+            System.out.println("El número ingresado no es válido.");
         }
     }
 
@@ -261,6 +271,7 @@ public class Contact {
             System.out.println("(Recuerda que el índice comienza desde 0)");
             System.out.print("¿Qué número deseas modificar? Ingresa el índice: ");
             int index = input.nextInt();
+            input.nextLine();
 
             if(index >= 0 && index < this.phoneNumbers.size()){
                 String number;
@@ -296,6 +307,7 @@ public class Contact {
             System.out.println("(Recuerda que el índice comienza desde 0)");
             System.out.print("¿Qué número deseas eliminar? Ingresa el índice: ");
             int index = input.nextInt();
+            input.nextLine();
             if(index >= 0 && index < this.phoneNumbers.size()){
                 this.phoneNumbers.remove(index);
                 System.out.println("¡Número eliminado!");

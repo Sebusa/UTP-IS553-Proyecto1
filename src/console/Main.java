@@ -56,6 +56,7 @@ public class Main{
                     break;
                 }
                 case "0":{
+                    System.out.println("Saliendo del programa...");
                     flag = false;
                     break;
                 }

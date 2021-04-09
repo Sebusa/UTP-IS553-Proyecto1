@@ -4,7 +4,9 @@ Versión: 2.0*/
 package mavenpackage;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.*;
@@ -97,6 +99,7 @@ public class Phonebook {
     }
 
     public void addContact(){
+        this.contactsBook.clear();
         var user = new Contact();
         user.addData();
         this.contactsBook.add(user);
@@ -114,6 +117,7 @@ public class Phonebook {
             System.out.println("(Recuerda que el índice comienza desde 0)");
             System.out.print("Ingrese la posición a modificar de la lista: ");
             index = input.nextInt();
+            input.nextLine();
             if(index >= 0 && index < this.contactsBook.size()){
                 Boolean flag = true;
                 int option;
@@ -126,6 +130,7 @@ public class Phonebook {
                     System.out.println("[3]- Salir de la función.");
                     option = input.nextInt();
 
+                    input.nextLine();
                     Screen.clearScreen();
                     switch(option){
                         case 1:{
@@ -169,6 +174,7 @@ public class Phonebook {
             System.out.println("(Recuerda que el índice comienza desde 0)");
             System.out.print("Ingrese la posición a eliminar de la lista: ");
             index = input.nextInt();
+            input.nextLine();
             if(index >= 0 && index < this.contactsBook.size()){
                 this.contactsBook.remove(index);
                 writeOverData(filePath);
@@ -321,6 +327,7 @@ public class Phonebook {
             try{
                 file.createNewFile();
             } catch(IOException e){
+                System.out.println("Hubo un error :(");
                 e.printStackTrace();
             }
         }
@@ -330,6 +337,7 @@ public class Phonebook {
                             + " en la subcarpeta user.");
     }
 
+    //Funciones para poder importar archivos externos y verificar si son leíbles.
     public void importFile(){
         String file;
         String pathToSearch;
@@ -366,47 +374,46 @@ public class Phonebook {
 
             Boolean fileVerified = true;
             while((stringBuffer = fileToOpen.readLine()) != null){
-                dataRecolected = stringBuffer.split(";");
+                if(fileVerified){
+                    dataRecolected = stringBuffer.split(";");
 
-                if(dataRecolected.length != 5){
-                    System.out.println("El archivo no cumple con la estructura.");
-                    fileVerified = false;
-                    break;
-                }
-                else{
-                    var user = new Contact();
-                    user.setName(dataRecolected[0]);
-                    String[] phoneNumbers = dataRecolected[1].split(",");
-                    for(String number : phoneNumbers){
-                        try{
-                            Integer.parseInt(number);
-                            if(!verifyImportedNumbers(number)){
-                                user.addNumber(number);
-                            }
-                            else{
-                                System.out.println("Hay un número repetido en el archivo importado.");
+                    if(dataRecolected.length != 5){
+                        System.out.println("El archivo no cumple con la estructura.");
+                        fileVerified = false;
+                        break;
+                    }
+                    else{
+                        var user = new Contact();
+                        user.setName(dataRecolected[0]);
+                        String[] phoneNumbers = dataRecolected[1].split(",");
+                        for(String number : phoneNumbers){
+                            try{
+                                Long.parseLong(number);
+                                if(!verifyImportedNumbers(number)){
+                                    user.addNumber(number);
+                                }
+                                else{
+                                    System.out.println("Hay un número repetido en el archivo importado.");
+                                    fileVerified = false;
+                                    break;
+                                }
+                            }catch(Exception e){
+                                System.out.println("Los números registrados no son válidos.");
                                 fileVerified = false;
                                 break;
                             }
-                        }catch(Exception e){
-                            System.out.println("Los números registrados no son válidos.");
-                            e.printStackTrace();
-                            fileVerified = false;
-                            break;
                         }
+                        user.setEmail(dataRecolected[2]);
+                        user.setAddress(dataRecolected[3]);
+                        user.setNickname(dataRecolected[4]);
+                        this.contactsBook.add(user);
                     }
-                    user.setEmail(dataRecolected[2]);
-                    user.setAddress(dataRecolected[3]);
-                    user.setNickname(dataRecolected[4]);
-                    this.contactsBook.add(user);
                 }
             }
-
             fileToOpen.close();
             return fileVerified;
         }catch(IOException e){
             System.out.println("Archivo no encontrado.");
-            e.printStackTrace();
             return false;
         }
     }
