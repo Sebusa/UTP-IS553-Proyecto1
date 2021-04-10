@@ -1,85 +1,24 @@
-/*
-Está clase representa a un contacto que será manejado por la agenda.
-Un contacto podrá añadir, modificar o eliminar sus propios datos en caso de ser necesario.
-Versión: 2.0
-*/
-package mavenpackage;
+package console.java.mavenpackage;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+import classes.java.mavenpackage.*;
 
-public class Contact {
-    Scanner input = new Scanner(System.in);
+public class ContactMain {
+    static Scanner input = new Scanner(System.in);
 
-    private String name;
-    private List<String> phoneNumbers = new ArrayList<>();
-    private String email;
-    private String address;
-    private String nickname;
-
-    //Constructores y métodos mutadores
-    public Contact(String name, String email, String address, String nickname) {
-        this.setName(name);
-        this.setEmail(email);
-        this.setAddress(address);
-        this.setNickname(nickname);
-    }    
-
-    public Contact(){
-        this.setName(null);
-        this.setEmail(null);
-        this.setAddress(null);
-        this.setNickname(null);
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<String> getPhoneNumbers(){
-        return this.phoneNumbers;
-    }
-
-    /*
-    Funciones básicas del programa 
-    */
-
-    //Función para añadir datos al contacto
-    public void addData(){
+    public static void addData(Contact user){
         String newName;
         System.out.print("Ingresa el nombre: ");
         newName = input.nextLine();
-        setName(newName);
+        user.setName(newName);
 
         Boolean flag = true;
         int numberOption;
         while(flag){
-            addNumber();
+            Screen.clearScreen();
+            addNumber(user);
             System.out.println("¿Deseas ingresar más números?");
             System.out.println("[1]- Sí.");
             System.out.println("[2]- No.");
@@ -98,7 +37,7 @@ public class Contact {
             String newEmail;
             System.out.print("Ingresa el correo electrónico: ");
             newEmail = input.next();
-            setEmail(newEmail);
+            user.setEmail(newEmail);
         }
 
         System.out.println("¿Deseas ingresar una dirección?");
@@ -111,7 +50,7 @@ public class Contact {
             String newAddress;
             System.out.print("Ingresa la dirección: ");
             newAddress = input.nextLine();
-            setAddress(newAddress);
+            user.setAddress(newAddress);
         }
     
         System.out.println("¿Deseas ingresar un apodo?");
@@ -124,32 +63,34 @@ public class Contact {
             String newNickname;
             System.out.print("Ingresa el apodo: ");
             newNickname = input.nextLine();
-            setNickname(newNickname);
+            user.setNickname(newNickname);
         }
     }
 
-    //Función para mostrar los datos del contacto
-    public void showData(){
-        System.out.println("Nombre: " + getName());
+    public static void showData(Contact user){
+        System.out.println("Nombre: " + user.getName());
 
+        int i = 1;
         System.out.println("Números telefónicos:");
-        showNumbers();
-
-        if(getEmail() != null || getEmail() != "null"){
-            System.out.println("Correo electrónico: " + getEmail());
+        for(String number : user.getPhoneNumbers()){
+            System.out.println(i + ") " + number);
+            i++;
         }
 
-        if(getAddress() != null || getAddress() != "null"){
-            System.out.println("Dirección: " + getAddress());
+        if(user.getEmail() != null || user.getEmail() != "null"){
+            System.out.println("Correo electrónico: " + user.getEmail());
         }
 
-        if(getNickname() != null || getNickname() != "null"){
-            System.out.println("Apodo: " + getNickname());
+        if(user.getAddress() != null || user.getAddress() != "null"){
+            System.out.println("Dirección: " + user.getAddress());
+        }
+
+        if(user.getNickname() != null || user.getNickname() != "null"){
+            System.out.println("Apodo: " + user.getNickname());
         }
     }
 
-    //Función para modificar datos del contacto
-    public void modifyData(){
+    public static void modifyData(Contact user){
         int option;
 
         System.out.println("¿Qué deseas modificar?");
@@ -169,32 +110,32 @@ public class Contact {
                 String newName;
                 System.out.print("Ingresa el nuevo nombre: ");
                 newName = input.nextLine();
-                setName(newName);
+                user.setName(newName);
                 break;
             }
             case 2: {
-                modifyNumber();
+                modifyNumber(user);
                 break;
             }
             case 3: {
                 String newEmail;
                 System.out.print("Ingresa el nuevo correo electrónico: ");
                 newEmail = input.next();
-                setEmail(newEmail);
+                user.setEmail(newEmail);
                 break;
             }
             case 4: {
                 String newAddress;
                 System.out.print("Ingresa la nueva dirección: ");
                 newAddress = input.nextLine();
-                setAddress(newAddress);
+                user.setAddress(newAddress);
                 break;
             }
             case 5: {
                 String newNickname;
                 System.out.print("Ingresa el nuevo apodo: ");
                 newNickname = input.next();
-                setNickname(newNickname);
+                user.setNickname(newNickname);
                 break;
             }
             default: {
@@ -204,8 +145,7 @@ public class Contact {
         }
     }
 
-    //Función para eliminar datos del contacto
-    public void deleteData(){
+    public static void deleteData(Contact user){
         int option;
 
         System.out.println("¿Qué deseas eliminar?");
@@ -221,19 +161,19 @@ public class Contact {
         Screen.clearScreen();
         switch(option){
             case 1: {
-                deleteNumber();
+                deleteNumber(user);
                 break;
             }
             case 2: {
-                setEmail(null);
+                user.setEmail(null);
                 break;
             }
             case 3: {
-                setAddress(null);
+                user.setAddress(null);
                 break;
             }
             case 4: {
-                setNickname(null);
+                user.setNickname(null);
                 break;
             }
             default: {
@@ -243,61 +183,47 @@ public class Contact {
         }
     }
 
-    /*
-    Funciones adicionales para el manejo de números telefónicos
-    */
-
-    //Añadir un número
-    public void addNumber(){
+    public static void addNumber(Contact user){
         String number;
 
-        System.out.print("Ingresa el número: ");
+        System.out.print("Ingresa un número: ");
         number = input.next();
 
         try{
-            Long.parseLong(number);
             Phonebook agenda = new Phonebook();
             Boolean verifiedNumber = agenda.verifyNumber(number);
 
-            agenda.getContactsBook().clear();
+            Long.parseLong(number);
+            agenda.clearList();;
+
             if(!verifiedNumber){
-               this.phoneNumbers.add(number);
+               user.addNumber(number);
                System.out.println("¡Número agregado!");
             }
             else{
                 System.out.println("El número ya está en la agenda. No se puede ingresar.");
             }
-        } catch(Exception e){
-            Screen.clearScreen();
-            System.out.println("El número ingresado no es válido.");
+        }catch(Exception e){
+            System.out.println("El número no es válido.");
         }
     }
 
-    public void addNumber(String number){
-            this.phoneNumbers.add(number);
-    }
-
-    //Mostrar los números del contacto
-    public void showNumbers(){
-        int i = 1;
-
-        for(String number : this.phoneNumbers){
-            System.out.println(i + ") " + number);
-            i++;
-        }
-    }
-
-    //Modificar un número
-    public void modifyNumber(){
-        if(this.phoneNumbers.size() != 0){
+    public static void modifyNumber(Contact user){
+        if(user.getPhoneNumbersSize() != 0){
             System.out.println("Lista de números");
-            showNumbers();
+            
+            int i = 1;
+            for(String number : user.getPhoneNumbers()){
+                System.out.println(i + ") " + number);
+                i++;
+            }
+
             System.out.println("(Recuerda que el índice comienza desde 0)");
             System.out.print("¿Qué número deseas modificar? Ingresa el índice: ");
             int index = input.nextInt();
             input.nextLine();
 
-            if(index >= 0 && index < this.phoneNumbers.size()){
+            if(index >= 0 && index < user.getPhoneNumbersSize()){
                 String number;
 
                 System.out.print("Ingresa el nuevo número: ");
@@ -309,7 +235,7 @@ public class Contact {
                 
                 Screen.clearScreen();
                 if(!verifiedNumber){
-                    this.phoneNumbers.set(index, number);
+                    user.modifyNumber(index, number);
                     System.out.println("¡Número modificado!");
                 }
                 else{
@@ -325,9 +251,8 @@ public class Contact {
         }
     }
 
-    //Eliminar un número
-    public void deleteNumber(){
-        if(this.phoneNumbers.size() != 0){
+    public static void deleteNumber(Contact user){
+        if(user.getPhoneNumbersSize() != 0){
             System.out.println("Lista de números");
             showNumbers();
             System.out.println("(Recuerda que el índice comienza desde 0)");
@@ -335,8 +260,8 @@ public class Contact {
             int index = input.nextInt();
             input.nextLine();
             
-            if(index >= 0 && index < this.phoneNumbers.size()){
-                this.phoneNumbers.remove(index);
+            if(index >= 0 && index < user.getPhoneNumbersSize()){
+                user.deleteNumber(index);
                 System.out.println("¡Número eliminado!");
             }
             else{
@@ -348,9 +273,5 @@ public class Contact {
         }
     }
 
-    //Función que facilita la escritura de datos por la agenda.
-    public String getAttributes(){
-        return getName() + ";" + String.join(",",this.phoneNumbers) + ";" 
-                + getEmail() + ";" + getAddress() + ";" + getNickname();
-    }
 }
+

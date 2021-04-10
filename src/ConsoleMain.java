@@ -1,11 +1,8 @@
-/*
-Menú principal para el manejo de la agenda telefónica. Ofrece un menú por consola con las opciones disponibles.
-Version: 1.0
-*/
 import java.util.Scanner;
-import mavenpackage.*;
+import classes.java.mavenpackage.*;
+import console.java.mavenpackage.*;
 
-public class Main{
+public class ConsoleMain {
     static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args){
@@ -30,31 +27,31 @@ public class Main{
             Screen.clearScreen();
             switch(option){
                 case "1":{
-                    agenda.addContact();
+                    PhonebookMain.addContact(agenda);
                     break;
                 }
                 case "2":{
-                    agenda.modifyContact();
+                    PhonebookMain.modifyContact(agenda);
                     break;
                 }
                 case "3":{
-                    agenda.deleteContact();
+                    PhonebookMain.deleteContact(agenda);
                     break;
                 }
                 case "4":{
-                    agenda.showContacts();
+                    PhonebookMain.showContacts(agenda);
                     break;
                 }
                 case "5":{
-                    agenda.searchContact();
+                    PhonebookMain.searchContact(agenda);
                     break;
                 }
                 case "6":{
-                    agenda.exportDataFile();
+                    PhonebookMain.exportDataFile(agenda);
                     break;
                 }
                 case "7":{
-                    agenda.importFile();
+                    PhonebookMain.importFile(agenda);
                     break;
                 }
                 case "0":{
@@ -71,4 +68,6 @@ public class Main{
             input.next();
         }
     }
+
 }
+
