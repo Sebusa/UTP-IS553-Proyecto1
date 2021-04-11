@@ -49,11 +49,12 @@ public class Contact {
     public List<String> getPhoneNumbers(){
         return this.phoneNumbers;
     }
-
+    
     public Integer getPhoneNumbersSize(){
         return this.phoneNumbers.size();
     }
 
+    //Añadir un número
     public void addNumber(String number){
             this.phoneNumbers.add(number);
     }
@@ -75,4 +76,3 @@ public class Contact {
     }
     
 }
-

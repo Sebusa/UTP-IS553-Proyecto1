@@ -1,4 +1,4 @@
 Alejandro Gomez;3134567896;alejandronator@yahoo.com;Manizales;godnez
-Sebastian Lozano;3214566786;s.buitrago@utp.edu.co;null;negro
-Carlos Romero;321245665;soyromeo@yahoo.com;Roldanillo Valle;romeo
+Sebastian Buitrago;3214566786;s.buitrago@utp.edu.co;Roldanillo;negro
+Carlos Romero;321245665;soyromeo@yahoo.com;Roldanillo;romeo
 Leonardo Buitrago;3217250892,3106105908;leonardobuitrago0107@gmail.com;null;pa

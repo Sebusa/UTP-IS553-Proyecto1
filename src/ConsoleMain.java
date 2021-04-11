@@ -1,3 +1,9 @@
+/*
+Menú principal para la gestión de la agenda.
+Esta es la versión de consola.
+Versión: 1.0
+*/
+
 import java.util.Scanner;
 import classes.java.mavenpackage.*;
 import console.java.mavenpackage.*;
@@ -70,4 +76,3 @@ public class ConsoleMain {
     }
 
 }
-

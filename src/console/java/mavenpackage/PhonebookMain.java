@@ -1,3 +1,8 @@
+/*
+Esta clase brinda las opciones al usuario para
+el manejo de la agenda.
+Versión: 1.1
+*/
 package console.java.mavenpackage;
 
 import java.util.Scanner;
@@ -8,18 +13,25 @@ import classes.java.mavenpackage.*;
 public class PhonebookMain {
     static Scanner input = new Scanner(System.in);
 
+    //Función para añadir un contacto
     public static void addContact(Phonebook agenda){
         var user = new Contact();
 
         agenda.clearList();
         ContactMain.addData(user);
         agenda.addContact(user);
-        agenda.writeOverData(agenda.getFilePath());
 
-        Screen.clearScreen();
-        System.out.println("¡Usuario ingresado!");
+        if(agenda.writeOverData(agenda.getFilePath())){
+            Screen.clearScreen();
+            System.out.println("¡Usuario ingresado!");
+        }
+        else{
+            System.out.println("Ha habido un problema :(");
+        }
+
     }
 
+    //Función para mostrar los contactos registrados
     public static void showContacts(Phonebook agenda){
         agenda.convertData();
 
@@ -35,6 +47,7 @@ public class PhonebookMain {
         }
     }
 
+    //Función para modificar un contacto
     public static void modifyContact(Phonebook agenda){
         agenda.convertData();
 
@@ -50,7 +63,7 @@ public class PhonebookMain {
 
             if(index >= 0 && index < agenda.getContactsBookSize()){
                 Boolean flag = true;
-                int option;
+                String option;
                 Contact user = agenda.getContactByIndex(index);
 
                 while(flag){
@@ -59,34 +72,40 @@ public class PhonebookMain {
                     System.out.println("[1]- Modificar datos del contacto.");
                     System.out.println("[2]- Eliminar datos del contacto");
                     System.out.println("[3]- Salir de la función.");
-                    option = input.nextInt();
+                    option = input.next();
 
                     input.nextLine();
                     Screen.clearScreen();
                     switch(option){
-                        case 1:{
+                        case "1":{
                             ContactMain.modifyData(user);
                             break;
                         }
-                        case 2:{
+                        case "2":{
                             ContactMain.deleteData(user);
                             break;
                         }
-                        case 3:{
+                        case "3":{
                             flag = false;
                             break;
                         }
                         default:{
+                            System.out.println("Opción no válida.");
                             break;
                         }
                     }
                 }
 
                 agenda.modifyContact(index, user);
-                agenda.writeNewData(agenda.getFilePath());
 
-                Screen.clearScreen();
-                System.out.println("¡Usuario modificado!");
+                if(agenda.writeNewData(agenda.getFilePath())){
+                    Screen.clearScreen();
+                    System.out.println("¡Usuario modificado!");
+                }
+                else{
+                    System.out.println("Ha habido un problema :(");
+                }
+
             }
             else{
                 System.out.println("Posición no válida.");
@@ -112,10 +131,15 @@ public class PhonebookMain {
 
             if(index >= 0 && index < agenda.getContactsBookSize()){
                 agenda.deleteContact(index);
-                agenda.writeNewData(agenda.getFilePath());
 
-                Screen.clearScreen();
-                System.out.println("¡Usuario eliminado!");
+                if(agenda.writeNewData(agenda.getFilePath())){
+                    Screen.clearScreen();
+                    System.out.println("¡Usuario eliminado!");
+                }
+                else{
+                    System.out.println("Ha habido un problema :(");
+                }
+
             }
             else{
                 System.out.println("Posición no válida.");
@@ -126,6 +150,7 @@ public class PhonebookMain {
         }
     }
 
+    //Función para buscar un contacto por medio de un criterio de búsqueda
     public static void searchContact(Phonebook agenda){
         String option;
 
@@ -231,8 +256,10 @@ public class PhonebookMain {
         }
     }
 
+    //Función para exportar un archivo
     public static void exportDataFile(Phonebook agenda){
         agenda.convertData();
+
         String fileName;
 
         System.out.println("Se va a importar un archivo con los datos de los contactos.");
@@ -248,6 +275,7 @@ public class PhonebookMain {
                             + " en la subcarpeta user.");
     }
 
+    //Función para importar un archivo
     public static void importFile(Phonebook agenda){
         String file;
         String pathToSearch;
@@ -262,21 +290,44 @@ public class PhonebookMain {
         
         pathToSearch = "resources/user/" + file;
 
+        agenda.clearList();
+
         Screen.clearScreen();
-        if(agenda.verifyFile(pathToSearch)){
+        Integer answerExpected = agenda.verifyFile(pathToSearch);
+        if(answerExpected == 0){
             System.out.println("¡Archivo cargado correctamente!");
-            System.out.println("--LISTA DE CONTACTOS--");
+            if(agenda.getContactsBookSize() != 0){
+                System.out.println("--LISTA DE CONTACTOS--");
             
-            for(Contact user : agenda.getContactsBook()){
-                ContactMain.showData(user);
-                System.out.println("________________________");
+                for(Contact user : agenda.getContactsBook()){
+                    ContactMain.showData(user);
+                    System.out.println("________________________");
+                }
+            }
+            else{
+                System.out.println("El archivo está vacío.");
             }
             agenda.clearList();
         }
         else{
-            System.out.println("El archivo no es válido. Se cancela la importación.");
-        }
-    }
 
+            if(answerExpected == 1){
+                System.out.println("El archivo no cumple con la estructura.");
+            }
+            if(answerExpected == 2){
+                System.out.println("Hay un número repetido en el archivo.");
+            }
+            if(answerExpected == 3){
+                System.out.println("Un número del archivo no es válido.");
+            }
+            if(answerExpected == 4){
+                System.out.println("El archivo no se ha cargado correctamente.");
+            }
+
+            System.out.println("Se cancela la importación del archivo.");
+
+        }
+    
+    }
 
 }

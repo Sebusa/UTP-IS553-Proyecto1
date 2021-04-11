@@ -1,13 +1,17 @@
+/*
+Esta clase brinda las opciones al usuario para
+el manejo de datos de un contacto
+Versión: 1.1
+*/
 package console.java.mavenpackage;
 
 import java.util.Scanner;
-import java.util.List;
-import java.util.ArrayList;
 import classes.java.mavenpackage.*;
 
 public class ContactMain {
     static Scanner input = new Scanner(System.in);
 
+    //Función para añadir datos a un contacto
     public static void addData(Contact user){
         String newName;
         System.out.print("Ingresa el nombre: ");
@@ -67,6 +71,7 @@ public class ContactMain {
         }
     }
 
+    //Función para mostrar los datos de un usuario
     public static void showData(Contact user){
         System.out.println("Nombre: " + user.getName());
 
@@ -90,6 +95,7 @@ public class ContactMain {
         }
     }
 
+    //Función para modificar los datos de un usuario
     public static void modifyData(Contact user){
         int option;
 
@@ -145,6 +151,7 @@ public class ContactMain {
         }
     }
 
+    //Función para eliminar los datos de un usuario
     public static void deleteData(Contact user){
         int option;
 
@@ -183,6 +190,7 @@ public class ContactMain {
         }
     }
 
+    //Función para añadir un número
     public static void addNumber(Contact user){
         String number;
 
@@ -203,16 +211,18 @@ public class ContactMain {
             else{
                 System.out.println("El número ya está en la agenda. No se puede ingresar.");
             }
+
         }catch(Exception e){
             System.out.println("El número no es válido.");
         }
     }
 
+    //Función para modificar un número
     public static void modifyNumber(Contact user){
         if(user.getPhoneNumbersSize() != 0){
             System.out.println("Lista de números");
             
-            int i = 1;
+            int i = 0;
             for(String number : user.getPhoneNumbers()){
                 System.out.println(i + ") " + number);
                 i++;
@@ -224,22 +234,30 @@ public class ContactMain {
             input.nextLine();
 
             if(index >= 0 && index < user.getPhoneNumbersSize()){
-                String number;
+                String newNumber;
 
                 System.out.print("Ingresa el nuevo número: ");
-                number = input.next();
+                newNumber = input.next();
 
-                Phonebook agenda = new Phonebook();
-                Boolean verifiedNumber = agenda.verifyNumber(number);
-                agenda.getContactsBook().clear();
+                try{
+                    Phonebook agenda = new Phonebook();
+
+                    Long.parseLong(newNumber);
+
+                    Boolean verifiedNumber = agenda.verifyNumber(newNumber);
+                    agenda.getContactsBook().clear();
                 
-                Screen.clearScreen();
-                if(!verifiedNumber){
-                    user.modifyNumber(index, number);
-                    System.out.println("¡Número modificado!");
-                }
-                else{
-                    System.out.println("El número ya está en la agenda. No se puede ingresar.");
+                    Screen.clearScreen();
+                    if(!verifiedNumber){
+                        user.modifyNumber(index, newNumber);
+                        System.out.println("¡Número modificado!");
+                    }
+                    else{
+                        System.out.println("El número ya está en la agenda. No se puede ingresar.");
+                    }
+
+                } catch(Exception e){
+                    System.out.println("El número ingresado no es válido.");
                 }
             }
             else{
@@ -251,10 +269,16 @@ public class ContactMain {
         }
     }
 
+    //Función para eliminar un número
     public static void deleteNumber(Contact user){
         if(user.getPhoneNumbersSize() != 0){
+            int i = 0;
             System.out.println("Lista de números");
-            showNumbers();
+            for(String number : user.getPhoneNumbers()){
+             System.out.println(i + ") " + number);
+                i++;
+            }
+
             System.out.println("(Recuerda que el índice comienza desde 0)");
             System.out.print("¿Qué número deseas eliminar? Ingresa el índice: ");
             int index = input.nextInt();
@@ -274,4 +298,3 @@ public class ContactMain {
     }
 
 }
-

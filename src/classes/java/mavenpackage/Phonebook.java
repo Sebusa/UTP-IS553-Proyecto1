@@ -2,12 +2,10 @@ package classes.java.mavenpackage;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.*;
 
 public class Phonebook {
-    //Atributos básicos. Registro de la agenda y el archivo que manejará como base de datos.
     private String filePath = "resources/data/dataBase.txt";
     private List<Contact> contactsBook = new ArrayList<>();
 
@@ -19,15 +17,16 @@ public class Phonebook {
     public List<Contact> getContactsBook(){
         return this.contactsBook;
     }
-
     public Integer getContactsBookSize(){
         return this.contactsBook.size();
     }
 
+    //Función para retornar un contacto de la agenda por medio de un índice
     public Contact getContactByIndex(int index){
         return this.getContactsBook().get(index);
     }
 
+    //Vaciar la lista de contactos
     public void clearList(){
         this.contactsBook.clear();
     }
@@ -100,17 +99,17 @@ public class Phonebook {
         }
     }
 
-    //Función para añadir un contacto
+    //añadir un contacto
     public void addContact(Contact user){
         this.contactsBook.add(user);
     }
 
-    //Función para modificar un contacto
+    //modificar un contacto
     public void modifyContact(int index, Contact modifiedContact){
         this.getContactsBook().set(index, modifiedContact);
     }
 
-    //Función para eliminar un contacto
+    //eliminar un contacto
     public void deleteContact(int index){
         this.getContactsBook().remove(index);
     }
@@ -164,7 +163,8 @@ public class Phonebook {
 
     //Funciones para poder importar archivos externos y verificar si son válidos.
     //Función que verifica que el archivo importado cumpla con la estructura requerida
-    public Boolean verifyFile(String fileName){
+    public Integer verifyFile(String fileName){
+        Integer answer = 0;//Archivo bien cargado
         this.clearList();
 
         try{
@@ -179,6 +179,7 @@ public class Phonebook {
 
                     if(dataRecolected.length != 5){
                         fileVerified = false;
+                        answer = 1;//No cumple la estructura
                         break;
                     }
                     else{
@@ -193,10 +194,12 @@ public class Phonebook {
                                 }
                                 else{
                                     fileVerified = false;
+                                    answer = 2;//Número repetido
                                     break;
                                 }
                             }catch(Exception e){
                                 fileVerified = false;
+                                answer = 3;//Número no válido
                                 break;
                             }
                         }
@@ -208,10 +211,11 @@ public class Phonebook {
                 }
             }
             fileToOpen.close();
-            return fileVerified;
         }catch(IOException e){
-            return false;
+            answer = 4;//Archivo no cargado correctamente.
         }
+
+        return answer;
     }
 
     //Función que verifica los números importados
