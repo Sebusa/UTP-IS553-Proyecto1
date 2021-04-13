@@ -10,12 +10,13 @@ El proyecto está distribuido en tres carpetas fundamentalmente:
     Esta carpeta recolecta los archivos necesarios que aseguran el buen funcionamiento del proyecto.
 * ___resources___:
     Esta carpeta conforma los recursos utilizados por el programa en caso necesario. Se conforma por:
-    * __PhonebookData__:
+    * __data__:
         La base de datos que maneja el programa.
     * __user__:
         La carpeta donde se guardan los archivos generados por el usuario.
 * ___src___:
     Esta carpeta contiene los programas _.java_ del proyecto. Se conforma por:
-    * __main__:
+    * __classes__:
         La carpeta que contiene los programas principales.
-    * __test__: La carpeta que contiene las pruebas unitarias de cada programa.
+    * __test__: La carpeta que contiene las pruebas unitarias de cada clase principal.
+    * __console__: La interfaz por consola del programa.
