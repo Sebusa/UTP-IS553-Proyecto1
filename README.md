@@ -6,8 +6,6 @@ El proyecto fue creado con la herramienta _Maven_ con __JDK 15__ y el manejo de 
 
 ## Estructura del proyecto
 El proyecto está distribuido en tres carpetas fundamentalmente:
-* ___lib___:
-    Esta carpeta recolecta los archivos necesarios que aseguran el buen funcionamiento del proyecto.
 * ___resources___:
     Esta carpeta conforma los recursos utilizados por el programa en caso necesario. Se conforma por:
     * __data__:

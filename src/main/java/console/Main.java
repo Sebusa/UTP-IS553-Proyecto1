@@ -3,12 +3,12 @@ Menú principal para la gestión de la agenda.
 Esta es la versión de consola.
 Versión: 1.0
 */
+package console;
 
 import java.util.Scanner;
-import classes.java.mavenpackage.*;
-import console.java.mavenpackage.*;
+import classes.*;
 
-public class ConsoleMain {
+public class Main {
     static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args){

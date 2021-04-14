@@ -3,12 +3,12 @@ Esta clase brinda las opciones al usuario para
 el manejo de la agenda.
 Versión: 1.1
 */
-package console.java.mavenpackage;
+package console;
 
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
-import classes.java.mavenpackage.*;
+import classes.*;
 
 public class PhonebookMain {
     static Scanner input = new Scanner(System.in);

@@ -1,4 +1,10 @@
-package classes.java.mavenpackage;
+/*
+Clase phonebook
+Función: Manipulación de una lista de contactos
+Función principal dentro de la lógica
+Versión: 2.0
+ */
+package classes;
 
 import java.io.*;
 import java.util.ArrayList;

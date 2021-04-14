@@ -1,4 +1,9 @@
-package classes.java.mavenpackage;
+/*
+Clase Contact
+Función: El manejo de datos privados de un contacto.
+Versión: 1.0
+ */
+package classes;
 
 import java.util.ArrayList;
 import java.util.List;

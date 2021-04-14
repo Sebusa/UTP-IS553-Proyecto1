@@ -1,4 +1,9 @@
-package console.java.mavenpackage;
+/*
+Clase Screen
+Función: Limpiar la consola para el UI de versión en consola.
+Versión: 1.0
+ */
+package console;
 
 public class Screen {
     

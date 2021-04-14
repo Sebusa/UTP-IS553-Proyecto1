@@ -3,10 +3,10 @@ Esta clase brinda las opciones al usuario para
 el manejo de datos de un contacto
 Versión: 1.1
 */
-package console.java.mavenpackage;
+package console;
 
 import java.util.Scanner;
-import classes.java.mavenpackage.*;
+import classes.*;
 
 public class ContactMain {
     static Scanner input = new Scanner(System.in);
