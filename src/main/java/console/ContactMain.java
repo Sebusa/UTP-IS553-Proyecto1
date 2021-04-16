@@ -14,21 +14,34 @@ public class ContactMain {
     //Función para añadir datos a un contacto
     public static void addData(Contact user){
         String newName;
-        System.out.print("Ingresa el nombre: ");
-        newName = input.nextLine();
-        user.setName(newName);
+        Boolean nameFlag = true;
+        while(nameFlag){
+            System.out.print("(Campo obligatorio)Ingresa el nombre: ");
+            newName = input.nextLine();
 
-        Boolean flag = true;
-        int numberOption;
-        while(flag){
             Screen.clearScreen();
+            if(!newName.isBlank()){
+                user.setName(newName);
+                nameFlag = false;
+            }
+            else{
+                System.out.println("Debes ingresar un nombre.");
+            }
+        }
+
+        Boolean numberFlag = true;
+        int numberOption;
+        while(numberFlag){
             addNumber(user);
-            System.out.println("¿Deseas ingresar más números?");
-            System.out.println("[1]- Sí.");
-            System.out.println("[2]- No.");
-            numberOption = input.nextInt();
-            if(numberOption != 1){
-                flag = false;
+            if(user.getPhoneNumbersSize() > 0){
+                Screen.clearScreen();
+                System.out.println("¿Deseas ingresar más números?");
+                System.out.println("[1]- Sí.");
+                System.out.println("[2]- No.");
+                numberOption = input.nextInt();
+                if(numberOption != 1){
+                numberFlag = false;
+                }
             }
         }
 
@@ -69,6 +82,23 @@ public class ContactMain {
             newNickname = input.nextLine();
             user.setNickname(newNickname);
         }
+
+        String newPlace;
+        Boolean placeFlag = true;
+        while(placeFlag){
+            System.out.print("(Campo obligatorio)Ingresa el lugar donde conoció al contacto: ");
+            newPlace = input.nextLine();
+
+            Screen.clearScreen();
+            if(!newPlace.isBlank()){
+                user.setPlace(newPlace);
+                placeFlag = false;
+            }
+            else{
+                System.out.println("Debes ingresar un lugar.");
+            }
+        }
+
     }
 
     //Función para mostrar los datos de un usuario
@@ -93,11 +123,13 @@ public class ContactMain {
         if(user.getNickname() != null || user.getNickname() != "null"){
             System.out.println("Apodo: " + user.getNickname());
         }
+
+        System.out.println("Lugar de primer encuentro: " + user.getPlace());
     }
 
     //Función para modificar los datos de un usuario
     public static void modifyData(Contact user){
-        int option;
+        String option;
 
         System.out.println("¿Qué deseas modificar?");
         System.out.println("[1]-Nombre.");
@@ -105,43 +137,73 @@ public class ContactMain {
         System.out.println("[3]-Correo electrónico.");
         System.out.println("[4]-Dirección.");
         System.out.println("[5]-Apodo.");
+        System.out.println("[6]-Primer lugar de encuentro.");
         System.out.println("[0]-Salir de la función.");
         System.out.print("Ingresa la opción: ");
-        option = input.nextInt();
+        option = input.next();
         input.nextLine();
 
         Screen.clearScreen();
         switch(option){
-            case 1: {
+            case "1": {
                 String newName;
-                System.out.print("Ingresa el nuevo nombre: ");
-                newName = input.nextLine();
-                user.setName(newName);
+                Boolean nameFlag = true;
+                while(nameFlag){
+                    System.out.print("Ingresa el nuevo nombre: ");
+                    newName = input.nextLine();
+
+                    Screen.clearScreen();
+                    if(!newName.isBlank()){
+                        user.setName(newName);
+                        nameFlag = false;
+                    }
+                    else{
+                        System.out.println("Debes ingresar un lugar.");
+                    }
+                }
                 break;
             }
-            case 2: {
+            case "2": {
                 modifyNumber(user);
                 break;
             }
-            case 3: {
+            case "3": {
                 String newEmail;
                 System.out.print("Ingresa el nuevo correo electrónico: ");
                 newEmail = input.next();
                 user.setEmail(newEmail);
                 break;
             }
-            case 4: {
+            case "4": {
                 String newAddress;
                 System.out.print("Ingresa la nueva dirección: ");
                 newAddress = input.nextLine();
                 user.setAddress(newAddress);
                 break;
             }
-            case 5: {
+            case "5": {
                 String newNickname;
                 System.out.print("Ingresa el nuevo apodo: ");
                 newNickname = input.next();
                 user.setNickname(newNickname);
+                break;
+            }
+            case "6": {
+                String newPlace;
+                Boolean placeFlag = true;
+                while(placeFlag){
+                    System.out.print("Ingresa el nuevo lugar: ");
+                    newPlace = input.nextLine();
+
+                    Screen.clearScreen();
+                    if(!newPlace.isBlank()){
+                        user.setPlace(newPlace);
+                        placeFlag = false;
+                    }
+                    else{
+                        System.out.println("Debes ingresar un lugar.");
+                    }
+                }
                 break;
             }
             default: {
@@ -153,8 +215,10 @@ public class ContactMain {
 
     //Función para eliminar los datos de un usuario
     public static void deleteData(Contact user){
-        int option;
+        String option;
 
+        System.out.println("Ten en cuenta de que no se puede eliminar el nombre"
+                            + " ni tampoco el primer lugar de encuentro.");
         System.out.println("¿Qué deseas eliminar?");
         System.out.println("[1]-Número de teléfono.");
         System.out.println("[2]-Correo electrónico.");
@@ -162,24 +226,24 @@ public class ContactMain {
         System.out.println("[4]-Apodo.");
         System.out.println("[0]-Salir de la función.");
         System.out.println("Ingresa la opción: ");
-        option = input.nextInt();
+        option = input.next();
         input.nextLine();
 
         Screen.clearScreen();
         switch(option){
-            case 1: {
+            case "1": {
                 deleteNumber(user);
                 break;
             }
-            case 2: {
+            case "2": {
                 user.setEmail(null);
                 break;
             }
-            case 3: {
+            case "3": {
                 user.setAddress(null);
                 break;
             }
-            case 4: {
+            case "4": {
                 user.setNickname(null);
                 break;
             }
@@ -201,8 +265,10 @@ public class ContactMain {
             Phonebook agenda = new Phonebook();
             Boolean verifiedNumber = agenda.verifyNumber(number);
 
+            Screen.clearScreen();
+
             Long.parseLong(number);
-            agenda.clearList();;
+            agenda.clearList();
 
             if(!verifiedNumber){
                user.addNumber(number);
