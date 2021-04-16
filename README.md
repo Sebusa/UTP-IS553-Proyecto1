@@ -18,3 +18,8 @@ El proyecto está distribuido en tres carpetas fundamentalmente:
         La carpeta que contiene los programas principales.
     * __test__: La carpeta que contiene las pruebas unitarias de cada clase principal.
     * __console__: La interfaz por consola del programa.
+
+## ¿Cómo ejecuto el proyecto?
+Dentro de la carpeta _console_ se encuentra el archivo __Main.java__. ¡Simplemente ejecútalo y ya el proyecto hará el resto!
+
+En caso de inquietudes sobre la funcionalidad del programa aquí está la demostración: https://youtu.be/YzRB80HOgqU
