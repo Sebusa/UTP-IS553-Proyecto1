@@ -96,6 +96,7 @@ public class Phonebook {
                 user.setEmail(dataRecolected[2]);
                 user.setAddress(dataRecolected[3]);
                 user.setNickname(dataRecolected[4]);
+                user.setPlace(dataRecolected[5]);
 
                 this.addContact(user);
             }
@@ -183,7 +184,7 @@ public class Phonebook {
                 if(fileVerified){
                     dataRecolected = stringBuffer.split(";");
 
-                    if(dataRecolected.length != 5){
+                    if(dataRecolected.length != 6){
                         fileVerified = false;
                         answer = 1;//No cumple la estructura
                         break;
@@ -212,6 +213,7 @@ public class Phonebook {
                         user.setEmail(dataRecolected[2]);
                         user.setAddress(dataRecolected[3]);
                         user.setNickname(dataRecolected[4]);
+                        user.setPlace(dataRecolected[5]);
                         this.addContact(user);
                     }
                 }

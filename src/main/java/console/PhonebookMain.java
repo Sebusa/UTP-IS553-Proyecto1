@@ -62,12 +62,16 @@ public class PhonebookMain {
             input.nextLine();
 
             if(index >= 0 && index < agenda.getContactsBookSize()){
+                Screen.clearScreen();
                 Boolean flag = true;
                 String option;
                 Contact user = agenda.getContactByIndex(index);
 
                 while(flag){
                     System.out.println("Contacto No. " + index);
+                    ContactMain.showData(user);
+                    System.out.println("_________________________");
+
                     System.out.println("¿Qué deseas hacer?");
                     System.out.println("[1]- Modificar datos del contacto.");
                     System.out.println("[2]- Eliminar datos del contacto");
@@ -166,6 +170,7 @@ public class PhonebookMain {
         System.out.println("[3]- Correo electrónico.");
         System.out.println("[4]- Dirección.");
         System.out.println("[5]- Apodo.");
+        System.out.println("[6]- Primer lugar de encuentro.");
         System.out.println("[0]- Salir de la función.");
         System.out.print("Ingrese una opción: ");
         option = input.next();
@@ -217,6 +222,15 @@ public class PhonebookMain {
 
                 for(Contact user : agenda.getContactsBook()){
                     sentencesToCompare.add(user.getName());
+                }
+                break;
+            }
+            case "6":{
+                System.out.print("Ingrese el lugar a buscar: ");
+                wordToSearch = input.next();
+
+                for(Contact user : agenda.getContactsBook()){
+                    sentencesToCompare.add(user.getPlace());
                 }
                 break;
             }

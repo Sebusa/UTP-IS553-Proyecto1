@@ -14,6 +14,7 @@ public class Contact {
     private String email;
     private String address;
     private String nickname;
+    private String place;
 
     //Constructores y métodos mutadores
     public Contact(){
@@ -51,6 +52,13 @@ public class Contact {
         this.name = name;
     }
 
+    public String getPlace(){
+        return this.place;
+    }
+    public void setPlace(String place){
+        this.place = place;
+    }
+
     public List<String> getPhoneNumbers(){
         return this.phoneNumbers;
     }
@@ -77,7 +85,8 @@ public class Contact {
     //Función que facilita la escritura de datos por la agenda.
     public String getAttributes(){
         return getName() + ";" + String.join(",",this.phoneNumbers) + ";" 
-                + getEmail() + ";" + getAddress() + ";" + getNickname();
+                + getEmail() + ";" + getAddress() + ";" + getNickname()
+                + ";" + getPlace();
     }
     
 }
