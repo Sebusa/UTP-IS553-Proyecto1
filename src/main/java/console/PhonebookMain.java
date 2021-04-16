@@ -262,7 +262,7 @@ public class PhonebookMain {
 
         String fileName;
 
-        System.out.println("Se va a importar un archivo con los datos de los contactos.");
+        System.out.println("Se va a exportar un archivo con los datos de los contactos.");
         System.out.print("Ingrese el nombre del archivo: ");
 
         fileName = input.next();

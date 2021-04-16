@@ -284,6 +284,8 @@ public class ContactMain {
             int index = input.nextInt();
             input.nextLine();
             
+            Screen.clearScreen();
+
             if(index >= 0 && index < user.getPhoneNumbersSize()){
                 user.deleteNumber(index);
                 System.out.println("¡Número eliminado!");

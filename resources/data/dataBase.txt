@@ -1,5 +1,4 @@
 Alejandro Gomez;3134567896;alejandronator@yahoo.com;Manizales;godnez
-Sebastian Buitrago;3214566786;s.buitrago@utp.edu.co;Roldanillo;negro
 Carlos Romero;321245665;soyromeo@yahoo.com;Roldanillo;romeo
-Leonardo Buitrago;3217250892,3106105908;leonardobuitrago0107@gmail.com;null;pa
-Juan Mora;312145654,31061059098;juan.mora@yahoo.com;Dosquebradas;Mora
+Juan Mora;312145654;juan.mora@yahoo.com;Dosquebradas;Mora
+Santiago Quintero;3106105908,3224455878;santiago.quintero@utp.edu.co;null;Marine
